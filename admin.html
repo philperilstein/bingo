@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+table {
+  width: "100%";
+  table-layout: fixed;
+
+}
+.bingo td {
+  text-align: center;
+  vertical-align: center;
+  font-size: 12px;
+}
+td.header {
+  font-size: 20px;
+}
+</style>
+</head>
+<body>
+
+
+<div class="container">
+<div class="page-header">
+
+<div class="row">
+    <div class="col-sm-4">
+      <p style="font-size: 30px">Bingo Admin Console</p>
+    </div>
+    <div class="col-sm-8">
+        <div class="input-group">
+            <span class="input-group-addon">Check Winner</span>
+            <input type="text" class="form-control" maxlength="3" id="cardNumber" placeholder="Card Number">
+            <div class="input-group-btn">
+                <button class="btn btn-default" id="check-winner" type="submit">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </div>
+        </div>
+        <div id="winner-info"></div> 
+    </div>
+</div>
+
+</div><!-- End page-header -->
+
+<table class="table-striped table-bordered bingo" style="width: 100%">
+<tr><td class="header">B</td><td id="B1"></td><td id="B2"></td><td id="B3"></td><td id="B4"></td><td id="B5"></td><td id="B6"></td><td id="B7"></td><td id="B8"></td><td id="B9"></td><td id="B10"></td><td id="B11"></td><td id="B12"></td><td id="B13"></td><td id="B14"></td><td id="B15"></td></tr>
+<tr><td class="header">I</td><td id="I16"></td><td id="I17"></td><td id="I18"></td><td id="I19"></td><td id="I20"></td><td id="I21"></td><td id="I22"></td><td id="I23"></td><td id="I24"></td><td id="I25"></td><td id="I26"></td><td id="I27"></td><td id="I28"></td><td id="I29"></td><td id="I30"></td></tr>
+<tr><td class="header">N</td><td id="N31"></td><td id="N32"></td><td id="N33"></td><td id="N34"></td><td id="N35"></td><td id="N36"></td><td id="N37"></td><td id="N38"></td><td id="N39"></td><td id="N40"></td><td id="N41"></td><td id="N42"></td><td id="N43"></td><td id="N44"></td><td id="N45"></td></tr>
+<tr><td class="header">G</td><td id="G46"></td><td id="G47"></td><td id="G48"></td><td id="G49"></td><td id="G50"></td><td id="G51"></td><td id="G52"></td><td id="G53"></td><td id="G54"></td><td id="G55"></td><td id="G56"></td><td id="G57"></td><td id="G58"></td><td id="G59"></td><td id="G60"></td></tr>
+<tr><td class="header">O</td><td id="O61"></td><td id="O62"></td><td id="O63"></td><td id="O64"></td><td id="O65"></td><td id="O66"></td><td id="O67"></td><td id="O68"></td><td id="O69"></td><td id="O70"></td><td id="O71"></td><td id="O72"></td><td id="O73"></td><td id="O74"></td><td id="O75"></td></tr>
+</table>
+
+<hr />
+
+<!-- Progress Bar -->
+<div class="progress">
+    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+        0%
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Admin actions</div>
+            <div class="panel-body">
+                <button class="btn btn-default" id="pick-number">Pick Number</button>
+                <button class="btn btn-default" id="new-game">New Game</button>
+                <button class="btn btn-default" id="game-setup">Game Setup</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">Picked numbers</div>
+            <div class="panel-body" id="orderPicked">
+        </div>
+    </div>
+</div>
+
+
+</div>
+<script type="text/javascript">
+let drawnNumbers = new Set();
+let csvNumbers = getCookie("drawnNumbers");
+if (csvNumbers) {
+  let arrNumbers = csvNumbers.split(',');
+  if (arrNumbers && arrNumbers.length > 0) {
+    drawnNumbers = new Set(arrNumbers);
+    for (let i=0; i< arrNumbers.length; i++) {
+      let num = arrNumbers[i];
+      updateOnDraw(num, i+1);
+    }   
+  }  
+}
+
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function deleteCookie(cname) {
+  document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function getBingoNumber(num) {
+  let letter = '';
+  if (1 <= num && num <= 15) {
+      letter = 'B';
+  }
+  else if (16 <= num && num <= 30) {
+      letter = "I";
+  }
+  else if (31 <= num && num <= 45) {
+      letter = "N";
+  }
+  else if (46 <= num && num <= 60) {
+      letter = "G";
+  }
+  else if (61 <= num && num <=75) {
+      letter = "O";
+  }
+  return letter + num;
+}
+
+function drawNumber() {
+  let num = Math.floor(Math.random() * (75 - 1 + 1) + 1);
+  let bingoNum = getBingoNumber(num);
+
+  while (drawnNumbers.has(bingoNum)) {
+    num = Math.floor(Math.random() * (75 - 1 + 1) + 1);
+    bingoNum = getBingoNumber(num);
+  }
+
+  drawnNumbers.add(bingoNum);
+  setCookie("drawnNumbers", Array.from(drawnNumbers).join(','), 30);
+
+
+  return bingoNum;
+}
+
+function updateOnDraw(num, size) {
+    document.getElementById(num).textContent = num;
+    document.getElementById("orderPicked").innerHTML = `Pick[${size}] ${num}<br />` + document.getElementById("orderPicked").innerHTML;
+    let percentComplete = (drawnNumbers.size / 75 * 100).toFixed(2);
+    let progressBar = document.getElementsByClassName("progress-bar")[0];
+    progressBar.textContent = `${percentComplete}%`;
+    progressBar.style = `width:${percentComplete}%`;
+}
+
+/* ##########################
+ * # Create Event Listeners #
+ * ##########################
+ */ 
+document.getElementById("pick-number").addEventListener("click", function(event) {
+  if (drawnNumbers.size < 75) {
+    let num = drawNumber();
+    updateOnDraw(num, drawnNumbers.size); 
+  }
+  else if (drawnNumbers.size >= 75) {
+    alert('ALL NUMBERS DRAWN');
+  }
+});
+
+document.getElementById("game-setup").addEventListener("click", function(event) {
+  window.location='/bingo/';
+});
+
+document.getElementById("new-game").addEventListener("click", function(event) {
+  deleteCookie("drawnNumbers");
+  drawnNumbers = new Set();
+  for (let i=1; i<=75; i++) {
+    document.getElementById(getBingoNumber(i)).textContent = '';
+  }
+  document.getElementById("orderPicked").innerHTML = '';
+  let progressBar = document.getElementsByClassName("progress-bar")[0];
+  progressBar.textContent = "0%";
+  progressBar.style = "width:0%";
+  document.getElementById("winner-info").innerHTML = '';
+});
+
+document.getElementById("check-winner").addEventListener("click", function(event) {
+    document.getElementById("winner-info").innerHTML = '';
+	let cardNumber = document.getElementById("cardNumber").value;
+  	
+	loadDoc(`card_data/bingo-${cardNumber}.json`, function(jsonFile) {
+  		let bingoCard = JSON.parse(jsonFile.response);
+        checkWinner(bingoCard);
+  	});
+});
+
+function checkWinner(bingoCard) {
+    console.log('Checking for traditional rules');
+    let matchPos = [];
+    for (let row = 0; row < bingoCard.length; row++) {
+        for (let column = 0; column < bingoCard[row].length; column++) {
+            let bingoNumber = getBingoNumber(bingoCard[row][column]);
+            if (drawnNumbers.has(bingoNumber) || bingoNumber === 'FREE SPACE') {
+                matchPos.push({row, column});
+            }
+        }
+    }
+
+
+    let row1Match = matchPos.filter(m => m.row === 0);
+    let row2Match = matchPos.filter(m => m.row === 1);
+    let row3Match = matchPos.filter(m => m.row === 2);
+    let row4Match = matchPos.filter(m => m.row === 3);
+    let row5Match = matchPos.filter(m => m.row === 4);
+
+    let bMatches = matchPos.filter(m => m.column === 0);
+    let iMatches = matchPos.filter(m => m.column === 1);
+    let nMatches = matchPos.filter(m => m.column === 2);
+    let gMatches = matchPos.filter(m => m.column === 3);
+    let oMatches = matchPos.filter(m => m.column === 4);
+
+    let diagonal1 = matchPos.filter(m => (m.row === m.column));
+    let diagonal2 = matchPos.filter(m => (m.row + m.column === 4));
+
+    let fourCorners = matchPos.filter(m => (m.row === 0 || m.row === 4) && (m.column === 0 || m.column === 4));
+   
+
+    let retVal = [];
+    if (bMatches && bMatches.length === 5) {
+        retVal.push('Vertical BINGO on B');
+    }
+    if (iMatches && iMatches.length === 5) {
+        retVal.push('Vertical BINGO on I');
+    }
+	if (nMatches && nMatches.length === 5) {
+        retVal.push('Vertical BINGO on N');
+    }
+	if (gMatches && gMatches.length === 5) {
+        retVal.push('Vertical BINGO on G');
+    }
+	if (oMatches && oMatches.length === 5) {
+        retVal.push('Vertical BINGO on O');
+    }
+    if (row1Match && row1Match.length === 5) {
+        retVal.push('Horizontal BINGO on Row-1');
+    }
+    if (row2Match && row2Match.length === 5) {
+        retVal.push('Horizontal BINGO on Row-2');
+    }
+    if (row3Match && row3Match.length === 5) {
+        retVal.push('Horizontal BINGO on Row-3');
+                    }
+    if (row4Match && row4Match.length === 5) {
+        retVal.push('Horizontal BINGO on Row-4');
+    }
+    if (row5Match && row5Match.length === 5) {
+        retVal.push('Horizontal BINGO on Row-5');
+    }
+    if (fourCorners && fourCorners.length === 4) {
+        retVal.push('4 Corners BINGO');
+    }
+    if (diagonal1 && diagonal1.length === 5) {
+        retVal.push('Diagonal BINGO Top Left to Bottom Right');
+    }
+    if (diagonal2 && diagonal2.length === 5) {
+        retVal.push('Diagonal BINGO Bottom Left to Top Right');
+    }
+    if (matchPos && matchPos.length === 25) {
+        retVal.push('BLACK OUT BINGO');
+    }
+  
+    let winnerInfo = document.getElementById("winner-info"); 
+    if (retVal.length > 0) {
+        for (let str of retVal) {
+            winnerInfo.innerHTML += str + '<br />'; 
+        }
+    }
+    else {
+        winnerInfo.innerHTML = 'Not a BINGO';
+    } 
+}
+
+function loadDoc(file, callback) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      callback(this);
+    }
+  };
+  xhttp.open("GET", file, true);
+  xhttp.send();
+}
+
+</script>
+
+</body>
+</html>

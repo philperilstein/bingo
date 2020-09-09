@@ -1,0 +1,64 @@
+    .modal-dialog-full-width {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width:none !important;
+
+    }
+
+    .modal-content-full-width  {
+        height: auto !important;
+        min-height: 100% !important;
+        border-radius: 0 !important;
+        background-color: #ececec !important 
+    }
+
+    .modal-header-full-width  {
+        border-bottom: 1px solid #9ea2a2 !important;
+    }
+
+    .modal-footer-full-width  {
+        border-top: 1px solid #9ea2a2 !important;
+    }
+    table {
+        table-layout: fixed;
+        text-align: center;
+        width: 100%;
+    }
+    thead {
+        background-image: url("../watermelon-green.jpg");
+        color: #F35588;
+    } 
+    td {
+        width: 20%;
+        position: relative;
+        border: 1px solid black;
+    }
+    td.header {
+        font-size: 50px;
+        font-weight: bold;
+    } 
+    td.unselected {
+        background-color: #FFBBB4;
+        font-size: 20px;
+    }
+    td.selected {
+        background-image: url("../watermelon-pink.jpg");
+        font-size: 20px;
+    }
+    td:after {
+        content: '';
+        display: block;
+        margin-top: 100%;
+    } 
+    td .content {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;  /*Aligns vertically center */
+        justify-content: center; /*Aligns horizontally center */
+    }

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Online Bingo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style>
+  body {
+    padding: 5px;
+  }
+  div {
+   padding: 3px; 
+  }
+ .grey {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 3px;
+} 
+div .content {
+  display: flex;
+  align-items: center;  /*Aligns vertically center */
+}
+</style>
+
+</head>
+<body>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
+        <p>Are you sure you want to edit?  You will be taken back to the edit bingo players page with your saved player info, but your urls for your generated bingo cards will be discarded.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" onClick="revertSubmit()">Yes</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+  
+    <div id="container" class="container grey">
+      <h1>Welcome to Online Bingo</h1>
+      <p>Limitations: 10 bingo cards per person, 250 total bingo cards per game, 50 players per game</p>
+      <div id="form" class="form-group">
+       <div id="playerinfo" class="container-fluid"></div>
+        <div>
+          <button type="button" class="btn btn-default" onClick="addPlayer()"><span class="glyphicon glyphicon-plus"></span> Add a player</button>
+          <button type="button" class="btn btn-default" onClick="save()"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary disabled" onClick="submitForm()" id="submitButton">Generate cards</button>
+        </div>
+      </div>
+    </div>
+  
+
+    <script>
+      load();
+
+      function save() {
+        let saveData = [];
+        let playerInfo = document.getElementById("playerinfo");
+        for (let player of playerInfo.childNodes) {
+          let playerNameBox = player.childNodes[1].childNodes[0];
+          let numCardsBox = player.childNodes[2].childNodes[0];
+          let playerName = playerNameBox.value;
+          let numCards = numCardsBox.value;
+          saveData.push(`${playerName}:${numCards}`);
+        }
+        setCookie('setup', saveData.join(','), 30);
+      }
+
+      function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+
+      function revertSubmit() {
+        deleteCookie('urls');
+        location.reload();        
+      }
+
+      function deleteCookie(cname) {
+        document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      }
+
+      function createEditButton() {
+        let container = document.getElementById("container");
+        let revertButton = document.createElement("BUTTON");
+        revertButton.type = "button";
+        revertButton.className = "btn btn-default";
+        revertButton.id = "revertButton";
+        revertButton.textContent = "Edit";
+        revertButton.dataset.toggle = "modal";;
+        revertButton.dataset.target = "#myModal";  
+        container.appendChild(revertButton);
+      }
+
+      function createAdminButton() {
+        let container = document.getElementById("container");
+        let adminButton = document.createElement("BUTTON");
+        adminButton.type = "button";
+        adminButton.className = "btn btn-default";
+        adminButton.id = "adminButton";
+        adminButton.textContent = "Bingo Game Admin";
+        adminButton.addEventListener('click', function () { window.location='/bingo/admin.html' });
+        container.appendChild(adminButton);
+      }
+
+      function load() {
+        let urlData = this.getCookie('urls').split('|');
+        if (urlData[0] !== "") {
+          // Form has already been submitted so just load up the URLs
+          let container = document.getElementById("container");
+          createEditButton();
+          createAdminButton();
+          for (let data of urlData) {
+            let dataArray = data.split(':');
+            let playerNumber = dataArray[0];
+            let playerName = dataArray[1];
+            let playerCards = dataArray[2];
+            let paragraph = document.createElement("P");
+            paragraph.innerHTML = `${playerNumber} - ${playerName} URL: <a href="/bingo.html?card=${playerCards}" target="_blank">http://localhost:8080/Bingo/bingo.html?card=${playerCards}</a>`;
+            container.appendChild(paragraph);
+          }
+          let form = document.getElementById("form");
+          container.removeChild(form);
+        }
+        else {
+          // Form hasn't been submitted yet, so load up saved progress
+          let cookieData = this.getCookie('setup').split(',');
+          for (let player of cookieData) {
+            let playerData = player.split(':');
+            addPlayer(playerData[0], playerData[1]);
+          }
+          canSubmit();
+        }
+      }
+
+    /**
+     * Helper Function to get a cookie by the name of the file
+     * @param {String} cname the cookie name
+     * @returns {String} The cookie contents 
+     */
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+
+      function submitForm() {
+        save();
+        let submitButton = document.getElementById('submitButton');
+        submitButton.className="btn btn-primary disabled";
+        let container = document.getElementById("container");
+        createEditButton();
+        createAdminButton();
+        let playerInfo = document.getElementById("playerinfo");
+        let existingPlayers = parseInt(playerInfo.childNodes.length-1);
+        let allBoards = new Set();
+        let saveData = [];
+        for (let player of playerInfo.childNodes) {
+          let numCardsBox = player.childNodes[2].childNodes[0];
+          let playerNameBox = player.childNodes[1].childNodes[0];
+          let playerNumber = ((player.childNodes[0].textContent).split('#'))[1];
+          let numCards = parseInt(numCardsBox.value);
+          let playerCards = getCards(numCards, allBoards);
+          let playerName = playerNameBox.value;
+          let paragraph = document.createElement("P");
+          paragraph.innerHTML = `${playerNumber} - ${playerName} URL: <a href="bingo.html?card=${playerCards.join()}" target="_blank">http://localhost:8080/Bingo/bingo.html?card=${playerCards.join()}</a>`;
+          container.appendChild(paragraph);
+          saveData.push(`${playerNumber}:${playerName}:${playerCards.join()}`);
+        }
+        let saveDataString = saveData.join('|');
+        setCookie('urls', saveDataString, 30);
+        let form = document.getElementById("form");
+        container.removeChild(form);
+      }
+
+      function getCards(numCards, allBoards) {
+        let ret = [];
+        let rand;
+        while (ret.length < numCards) {
+          rand = (Math.floor(Math.random() * (250 - 1 + 1) + 1)).toString().padStart(3,'0');
+          if (!allBoards.has(rand)) {
+            ret.push(rand);
+            allBoards.add(rand);
+          }
+        }
+        return ret;
+      }
+
+      function typeNumCards(event) {
+        let row = event.path[2];
+        let numCards = row.childNodes[2].childNodes[0].value;
+
+        if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1 || parseInt(numCards) > 10) {
+          
+          let submitButton = document.getElementById('submitButton');
+          submitButton.className = "btn btn-primary disabled";
+
+          if (row.childNodes[2].className != "col-xs has-error has-feedback") {
+            row.childNodes[2].className = "col-xs has-error has-feedback";
+            if (row.childNodes[2].childNodes.length === 1) {
+              let errorThing = document.createElement("span");
+              errorThing.className = "glyphicon glyphicon-remove form-control-feedback";
+              row.childNodes[2].appendChild(errorThing);
+            }
+          }
+        }
+        else {
+          row.childNodes[2].className = "col-xs";
+          if (row.childNodes[2].childNodes.length === 2) {
+              row.childNodes[2].removeChild((row.childNodes[2]).childNodes[1]);
+          }
+        }
+        canSubmit();
+      }
+
+      function canSubmit() {
+        let submitButton = document.getElementById('submitButton');
+        let playerInfo = document.getElementById("playerinfo");
+        let totalCards = 0;
+
+        if (playerInfo.childNodes && playerInfo.childNodes.length === 0) {
+          submitButton.className = "btn btn-primary disabled";
+          return false;  
+        }
+
+        for (let player of playerInfo.childNodes) {
+          let numCards = parseInt(player.childNodes[2].childNodes[0].value);
+          totalCards += numCards;
+          if (player.childNodes[2].className === "col-xs has-error has-feedback") {
+            submitButton.className = "btn btn-primary disabled";
+            return false;
+          }
+          else if (totalCards > 250) {
+            alert('Cannot exceed 250 cards');
+            submitButton.className = "btn btn-primary disabled";
+            return false;
+          }
+          else if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1) {
+            // Brand new row added
+            submitButton.className = "btn btn-primary disabled";
+            return false;
+          }
+        }
+        submitButton.className = "btn btn-primary";
+        return true;
+      }
+
+      function reNumberRows() {
+        let playerInfo = document.getElementById("playerinfo");
+        let index = 0;
+        for (let row of playerInfo.childNodes) {
+          row.id = `row-${index}`;
+          let playerNum = row.childNodes[0];
+          playerNum.innerHTML = `#${index+1}`;
+          let delButton = row.childNodes[3].childNodes[0];
+          delButton.id = index;
+          index++;
+        }
+      }
+
+      function deleteRow(event) {
+        let rowNum = event.currentTarget.id;
+        let playerInfo = document.getElementById("playerinfo");
+        let rowToRemove = document.getElementById(`row-${rowNum}`);
+        playerInfo.removeChild(rowToRemove);
+        reNumberRows();
+        canSubmit();
+      }
+
+      function addPlayer(name, number) {
+        let playerInfo = document.getElementById("playerinfo");
+        let i = parseInt(playerInfo.childNodes.length);
+        if (i >= 50) {
+          alert('Cannot exceed 50 players');
+          return;
+        }
+        let row = document.createElement("DIV");
+        row.className = "row content";
+        row.id = `row-${i}`;
+        let column1 = document.createElement("DIV");
+        column1.className = "col-xs";
+        column1.innerHTML = `#${i+1}`;
+        let column2 = document.createElement("DIV");
+        column2.className = "col-xs";
+        let playerName = document.createElement("INPUT");
+        playerName.type = "text";
+        playerName.placeholder = "Player name";
+        playerName.className = "form-control";
+        if (name) {
+          playerName.value = name;
+        }
+        column2.appendChild(playerName);
+        let column3 = document.createElement("DIV");
+        column3.className = "col-xs";
+        let numCards = document.createElement("INPUT");
+        numCards.addEventListener('input', typeNumCards);
+        numCards.type = "text";
+        numCards.placeholder = "Number of cards";
+        numCards.className = "form-control";
+        if (number) {
+          numCards.value = number;
+        }
+        column3.appendChild(numCards);
+        let column4 = document.createElement("DIV");
+        column4.className = "col-xs";
+        let delButton = document.createElement("button");
+        delButton.innerHTML = "<span class=\"glyphicon glyphicon-trash\"></span>";
+        delButton.id = i;
+        delButton.addEventListener('click', deleteRow);
+        delButton.className = "btn btn-danger";
+        delButton.type = "button";
+        column4.appendChild(delButton);
+        row.appendChild(column1);
+        row.appendChild(column2);
+        row.appendChild(column3);
+        row.appendChild(column4);
+        playerInfo.appendChild(row);
+        submitButton.className = "btn btn-primary disabled";
+      }
+    </script>
+</body>
+</html>
+
