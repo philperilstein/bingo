@@ -27,7 +27,7 @@
         width: 100%;
     }
     thead {
-        background-image: url("../watermelon-green.jpg");
+        background-image: url("../images/watermelon-green.jpg");
         color: #F35588;
     } 
     td {
@@ -44,7 +44,7 @@
         font-size: 20px;
     }
     td.selected {
-        background-image: url("../watermelon-pink.jpg");
+        background-image: url("../images/watermelon-pink.jpg");
         font-size: 20px;
     }
     td:after {

@@ -3,6 +3,10 @@ import BingoGame from './BingoGame.js';
 
 export async function init() {
     let cardNumbers = getCardNumbers();
+    if (cardNumbers.length > 10) {
+        alert('Error: Invalid URL');
+        return;
+    }
     let bingoGame = new BingoGame(cardNumbers);
     await bingoGame.init();
 }
