@@ -252,6 +252,9 @@ div .content {
       function submitForm() {
         save();
         let submitButton = document.getElementById('submitButton');
+        if (submitButton.className === "btn btn-primary disabled") {
+          return;
+        }
         submitButton.className="btn btn-primary disabled";
         let playerInfo = document.getElementById("playerinfo");
         let existingPlayers = parseInt(playerInfo.childNodes.length-1);
