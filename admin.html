@@ -25,6 +25,21 @@ td.header {
 </head>
 <body>
 
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
+          <p>Are you sure you want to start a new game?  Previously selected numbers will be discarded.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" id="new-game" class="btn btn-default" data-dismiss="modal">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 <div class="container">
 <div class="page-header">
@@ -73,7 +88,7 @@ td.header {
             <div class="panel-heading">Admin actions</div>
             <div class="panel-body">
                 <button class="btn btn-default" id="pick-number">Pick Number</button>
-                <button class="btn btn-default" id="new-game">New Game</button>
+                <button class="btn btn-default" data-target="#myModal" data-toggle="modal">New Game</button>
                 <button class="btn btn-default" id="game-setup">Game Setup</button>
             </div>
         </div>
