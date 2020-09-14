@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Online Bingo</title>
+  <title>Host Virtual Bingo</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -34,18 +34,18 @@ div .content {
       <div class="modal-content">
         <div class="modal-header">
           <h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
-          <p>Are you sure you want to edit?  You will be taken back to the edit bingo players page with your saved player info, but your urls for your generated bingo cards will be discarded.</p>
+          <p>Are you sure you want to edit?  You will be taken back to the edit bingo players page with your saved player info.  If you decrease the number of cards for a player or delete a player, those cards will be readded to the pool to assign to new players.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-default" onClick="revertSubmit()">Yes</button>
+          <button type="button" class="btn btn-default" onClick="edit()">Yes</button>
         </div>
       </div>
     </div>
   </div>
   
   <div class="panel panel-default">
-    <h1>Host Virtual Bingo</h1>
+    <h1>Host Virtual Bingo [dot] [com]</h1>
     <div class="panel-body">
 
       <div id="container" class="panel panel-default">
@@ -58,7 +58,6 @@ div .content {
           <div id="playerinfo" class="container-fluid"></div>
             <div>
               <button type="button" class="btn btn-success" onClick="addPlayer()"><span class="glyphicon glyphicon-plus"></span> Add a player</button>
-              <button type="button" class="btn btn-success" onClick="save()"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
             </div>
             <div>
               <button type="button" class="btn btn-primary disabled" onClick="submitForm()" id="submitButton">Generate cards</button>
@@ -117,29 +116,11 @@ div .content {
     <script>
       load();
 
-      function save() {
-        let saveData = [];
-        let playerInfo = document.getElementById("playerinfo");
-        for (let player of playerInfo.childNodes) {
-          let playerNameBox = player.childNodes[1].childNodes[0];
-          let numCardsBox = player.childNodes[2].childNodes[0];
-          let playerName = playerNameBox.value;
-          let numCards = numCardsBox.value;
-          saveData.push(`${playerName}:${numCards}`);
-        }
-        setCookie('setup', saveData.join(','), 30);
-      }
-
       function setCookie(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
         var expires = "expires="+d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-      }
-
-      function revertSubmit() {
-        deleteCookie('urls');
-        location.reload();        
       }
 
       function deleteCookie(cname) {
@@ -148,14 +129,13 @@ div .content {
 
       function createEditButton() {
         let container = document.getElementById("container");
-        let revertButton = document.createElement("BUTTON");
-        revertButton.type = "button";
-        revertButton.className = "btn btn-default";
-        revertButton.id = "revertButton";
-        revertButton.textContent = "Edit";
-        revertButton.dataset.toggle = "modal";;
-        revertButton.dataset.target = "#myModal";  
-        container.appendChild(revertButton);
+        let editButton = document.createElement("BUTTON");
+        editButton.type = "button";
+        editButton.className = "btn btn-default";
+        editButton.textContent = "Edit";
+        editButton.dataset.toggle = "modal";;
+        editButton.dataset.target = "#myModal";  
+        container.appendChild(editButton);
       }
 
       function createAdminButton() {
@@ -187,27 +167,41 @@ div .content {
           headerRow.appendChild(urlHeader);
           table.appendChild(tableHead);
           let tableBody = document.createElement("TBODY");
+          let i = 0;
           for (let data of urlData) {
-            let dataArray = data.split(':');
-            let row = document.createElement("TR");
-            for (let i=0; i<dataArray.length; i++) {
-              let cell = document.createElement("TD");
-              if (i === 2) {
-                cell.innerHTML = `<a href="/bingo.html?card=${dataArray[i]}" target="_blank">${domain}bingo.html?card=${dataArray[i]}</a>`;
-              } else {
-                cell.innerHTML = dataArray[i];
-              }
-              row.appendChild(cell);
+            if (data[0] !== '!') {
+              let dataArray = data.split(':');
+              let row = document.createElement("TR");
+              let cell1 = document.createElement("TD");
+              cell1.innerHTML = i;
+              let cell2 = document.createElement("TD");
+              cell2.innerHTML = dataArray[0];
+              let cell3 = document.createElement("TD");
+              cell3.innerHTML = `<a href="/bingo.html?card=${dataArray[1]}" target="_blank">${domain}bingo.html?card=${dataArray[1]}</a>`;
+              row.appendChild(cell1);
+              row.appendChild(cell2);
+              row.appendChild(cell3);
+              tableBody.appendChild(row);
             }
-            tableBody.appendChild(row);
+            i++;
           }
           table.appendChild(tableBody);
           return table;
       }
 
+      function edit() {
+        let urlData = this.getCookie('urls').split('|');
+        if (urlData[0] === '!' && urlData[0].length === 1) {
+          urlData.splice(0,1);
+          let saveDataString = urlData.join('|');
+          setCookie('urls', saveDataString, 30);
+          location.reload();
+        }
+      }
+
       function load() {
         let urlData = this.getCookie('urls').split('|');
-        if (urlData[0] !== "") {
+        if (urlData[0] === '!') {
           // Form has already been submitted so just load up the URLs
           let container = document.getElementById("container");
           (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
@@ -218,12 +212,14 @@ div .content {
           let form = document.getElementById("form");
           container.removeChild(form);
         }
-        else {
-          // Form hasn't been submitted yet, so load up saved progress
-          let cookieData = this.getCookie('setup').split(',');
+        else if (urlData[0] !== '') {
+          // Form hasn't been submitted yet or clicked edit so load up saved progress
+          let cookieData = this.getCookie('urls').split('|');
           for (let player of cookieData) {
             let playerData = player.split(':');
-            addPlayer(playerData[0], playerData[1]);
+            if (playerData[0] !== '!') {
+              addPlayer(playerData[0], playerData[1].split(','));
+            }
           }
           canSubmit();
         }
@@ -250,24 +246,37 @@ div .content {
       }
 
       function submitForm() {
-        save();
         let submitButton = document.getElementById('submitButton');
         if (submitButton.className === "btn btn-primary disabled") {
           return;
         }
         submitButton.className="btn btn-primary disabled";
         let playerInfo = document.getElementById("playerinfo");
-        let existingPlayers = parseInt(playerInfo.childNodes.length-1);
         let allBoards = new Set();
         let saveData = [];
+        saveData.push('!');
+
+        // Populate allBoards with prev selections, process deletions
         for (let player of playerInfo.childNodes) {
-          let numCardsBox = player.childNodes[2].childNodes[0];
-          let playerNameBox = player.childNodes[1].childNodes[0];
-          let playerNumber = ((player.childNodes[0].textContent).split('#'))[1];
-          let numCards = parseInt(numCardsBox.value);
-          let playerCards = getCards(numCards, allBoards);
-          let playerName = playerNameBox.value;
-          saveData.push(`${playerNumber}:${playerName}:${playerCards.join()}`);
+          let numCards = parseInt((player.childNodes[2].childNodes[0]).value);
+          let assignedCards = (player.childNodes[3].childNodes[0].value).split(',');
+          assignedCards = assignedCards.length === 1 && assignedCards[0] === '' ? [] : assignedCards;
+          if (numCards < assignedCards.length) {
+            // Delete the difference
+            let diff = assignedCards.length - numCards;
+            assignedCards.splice(numCards, diff);
+            player.childNodes[3].childNodes[0].value = assignedCards.join(',');
+          }
+          assignedCards.forEach(card => allBoards.add(card));
+        }
+
+        for (let player of playerInfo.childNodes) {
+          let playerName = player.childNodes[1].childNodes[0].value;
+          let numCards = parseInt((player.childNodes[2].childNodes[0]).value);
+          let assignedCards = (player.childNodes[3].childNodes[0].value).split(',');
+          assignedCards = assignedCards.length === 1 && assignedCards[0] === '' ? [] : assignedCards;
+          let playerCards = getCards(numCards, allBoards, assignedCards);
+          saveData.push(`${playerName}:${playerCards.join()}`);
         }
         let container = document.getElementById("container");
         createEditButton();
@@ -281,8 +290,8 @@ div .content {
         container.removeChild(form);
       }
 
-      function getCards(numCards, allBoards) {
-        let ret = [];
+      function getCards(numCards, allBoards, assignedCards) {
+        let ret = assignedCards;
         let rand;
         while (ret.length < numCards) {
           rand = (Math.floor(Math.random() * (250 - 1 + 1) + 1)).toString().padStart(3,'0');
@@ -359,8 +368,8 @@ div .content {
         for (let row of playerInfo.childNodes) {
           row.id = `row-${index}`;
           let playerNum = row.childNodes[0];
-          playerNum.innerHTML = `#${index+1}`;
-          let delButton = row.childNodes[3].childNodes[0];
+          playerNum.innerHTML = `${index+1}`;
+          let delButton = row.childNodes[4].childNodes[0];
           delButton.id = index;
           index++;
         }
@@ -375,7 +384,7 @@ div .content {
         canSubmit();
       }
 
-      function addPlayer(name, number) {
+      function addPlayer(name, cardNumbers) {
         let playerInfo = document.getElementById("playerinfo");
         let i = parseInt(playerInfo.childNodes.length);
         if (i >= 50) {
@@ -387,7 +396,7 @@ div .content {
         row.id = `row-${i}`;
         let column1 = document.createElement("DIV");
         column1.className = "col-xs";
-        column1.innerHTML = `#${i+1}`;
+        column1.innerHTML = `${i+1}`;
         let column2 = document.createElement("DIV");
         column2.className = "col-xs";
         let playerName = document.createElement("INPUT");
@@ -405,23 +414,34 @@ div .content {
         numCards.type = "text";
         numCards.placeholder = "Number of cards";
         numCards.className = "form-control";
-        if (number) {
-          numCards.value = number;
+        if (cardNumbers) {
+          numCards.value = cardNumbers.length;
         }
         column3.appendChild(numCards);
+
         let column4 = document.createElement("DIV");
         column4.className = "col-xs";
+        let cardNumbersInput = document.createElement("INPUT");
+        cardNumbersInput.type = "hidden";
+        if (cardNumbers) {
+          cardNumbersInput.value = cardNumbers.join(',');
+        }
+        column4.appendChild(cardNumbersInput);
+
+        let column5 = document.createElement("DIV");
+        column5.className = "col-xs";
         let delButton = document.createElement("button");
         delButton.innerHTML = "<span class=\"glyphicon glyphicon-trash\"></span>";
         delButton.id = i;
         delButton.addEventListener('click', deleteRow);
         delButton.className = "btn btn-danger";
         delButton.type = "button";
-        column4.appendChild(delButton);
+        column5.appendChild(delButton);
         row.appendChild(column1);
         row.appendChild(column2);
         row.appendChild(column3);
         row.appendChild(column4);
+        row.appendChild(column5);
         playerInfo.appendChild(row);
         submitButton.className = "btn btn-primary disabled";
       }
