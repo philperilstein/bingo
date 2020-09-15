@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="../js/common.js"></script>
 
 <style>
   body {
@@ -57,10 +58,8 @@ div .content {
           <div class="form-group">
           <div id="playerinfo" class="container-fluid"></div>
             <div>
-              <button type="button" class="btn btn-success" onClick="addPlayer()"><span class="glyphicon glyphicon-plus"></span> Add a player</button>
-            </div>
-            <div>
-              <button type="button" class="btn btn-primary disabled" onClick="submitForm()" id="submitButton">Generate cards</button>
+              <button type="button" class="btn btn-primary" onClick="addPlayer()"><span class="glyphicon glyphicon-plus"></span> Add a player</button>
+              <button type="button" class="btn btn-success disabled" onClick="submitForm()" id="submitButton">Generate cards</button>
             </div>
           </div>
         </div>
@@ -105,7 +104,7 @@ div .content {
           </p>
           <p>
             Q: How many total BINGO cards can I play with in a game?<br />
-            A: You may use up to 250 BINGO cards per game.
+            A: You may use up to 500 BINGO cards per game.
           </p>
         </div>
       </div>
@@ -115,18 +114,6 @@ div .content {
 
     <script>
       load();
-
-      function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires="+d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-      }
-
-      function deleteCookie(cname) {
-        document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-      }
-
       function createEditButton() {
         let container = document.getElementById("container");
         let editButton = document.createElement("BUTTON");
@@ -134,7 +121,7 @@ div .content {
         editButton.className = "btn btn-default";
         editButton.textContent = "Edit";
         editButton.dataset.toggle = "modal";;
-        editButton.dataset.target = "#myModal";  
+        editButton.dataset.target = "#myModal";
         container.appendChild(editButton);
       }
 
@@ -225,32 +212,12 @@ div .content {
         }
       }
 
-    /**
-     * Helper Function to get a cookie by the name of the file
-     * @param {String} cname the cookie name
-     * @returns {String} The cookie contents 
-     */
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-          }
-        }
-        return "";
-      }
-
       function submitForm() {
         let submitButton = document.getElementById('submitButton');
-        if (submitButton.className === "btn btn-primary disabled") {
+        if (submitButton.classList.contains("disabled")) {
           return;
         }
-        submitButton.className="btn btn-primary disabled";
+        submitButton.classList.add("disabled");
         let playerInfo = document.getElementById("playerinfo");
         let allBoards = new Set();
         let saveData = [];
@@ -294,7 +261,7 @@ div .content {
         let ret = assignedCards;
         let rand;
         while (ret.length < numCards) {
-          rand = (Math.floor(Math.random() * (250 - 1 + 1) + 1)).toString().padStart(3,'0');
+          rand = (Math.floor(Math.random() * (999 - 1 + 1) + 1)).toString().padStart(3,'0');
           if (!allBoards.has(rand)) {
             ret.push(rand);
             allBoards.add(rand);
@@ -310,7 +277,9 @@ div .content {
         if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1 || parseInt(numCards) > 10) {
           
           let submitButton = document.getElementById('submitButton');
-          submitButton.className = "btn btn-primary disabled";
+          if (!submitButton.classList.contains("disabled")) {
+            submitButton.classList.add("disabled");
+          }
 
           if (row.childNodes[2].className != "col-xs has-error has-feedback") {
             row.childNodes[2].className = "col-xs has-error has-feedback";
@@ -336,7 +305,9 @@ div .content {
         let totalCards = 0;
 
         if (playerInfo.childNodes && playerInfo.childNodes.length === 0) {
-          submitButton.className = "btn btn-primary disabled";
+          if (!submitButton.classList.contains("disabled")) {
+            submitButton.classList.add("disabled");
+          }
           return false;  
         }
 
@@ -344,21 +315,30 @@ div .content {
           let numCards = parseInt(player.childNodes[2].childNodes[0].value);
           totalCards += numCards;
           if (player.childNodes[2].className === "col-xs has-error has-feedback") {
-            submitButton.className = "btn btn-primary disabled";
+            if (!submitButton.classList.contains("disabled")) {
+              submitButton.classList.add("disabled");
+            }
             return false;
           }
-          else if (totalCards > 250) {
-            alert('Cannot exceed 250 cards');
-            submitButton.className = "btn btn-primary disabled";
+          else if (totalCards > 500) {
+            alert(`<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>`, 'Cannot exceed 250 total cards');
+            if (!submitButton.classList.contains("disabled")) {
+              submitButton.classList.add("disabled");
+            }
             return false;
           }
           else if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1) {
             // Brand new row added
-            submitButton.className = "btn btn-primary disabled";
+            if (!submitButton.classList.contains("disabled")) {
+              submitButton.classList.add("disabled");
+            }
             return false;
           }
         }
-        submitButton.className = "btn btn-primary";
+        if (submitButton.classList.contains("disabled")) {
+              submitButton.classList.remove("disabled");
+        }
+
         return true;
       }
 
@@ -388,7 +368,7 @@ div .content {
         let playerInfo = document.getElementById("playerinfo");
         let i = parseInt(playerInfo.childNodes.length);
         if (i >= 50) {
-          alert('Cannot exceed 50 players');
+          alert(`<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>`, 'Cannot exceed 50 total players');
           return;
         }
         let row = document.createElement("DIV");
@@ -403,6 +383,7 @@ div .content {
         playerName.type = "text";
         playerName.placeholder = "Player name";
         playerName.className = "form-control";
+        playerName.maxLength = "30";
         if (name) {
           playerName.value = name;
         }
@@ -443,7 +424,9 @@ div .content {
         row.appendChild(column4);
         row.appendChild(column5);
         playerInfo.appendChild(row);
-        submitButton.className = "btn btn-primary disabled";
+        if (!submitButton.classList.contains("disabled")) {
+          submitButton.classList.add("disabled");
+        }
       }
     </script>
 </body>

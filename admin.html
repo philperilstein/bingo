@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="../js/common.js"></script>
 <style>
 table {
   width: "100%";
@@ -124,32 +125,6 @@ if (drawnNumbers.size >= 75) {
     pickNumButton.className = "btn btn-default disabled";
   }
 
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function deleteCookie(cname) {
-  document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-}
-
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for(var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
 function getBingoNumber(num) {
   let letter = '';
   if (1 <= num && num <= 15) {
@@ -238,6 +213,7 @@ document.getElementById("check-winner").addEventListener("click", function(event
   }
   if (cardNumber === "000" || isNaN(cardNumber)) {
     document.getElementById("winner-info").innerHTML = 'Invalid Card Number';
+    return;
   }
 	loadDoc(`card_data/bingo-${cardNumber}.json`, function(jsonFile) {
   		let bingoCard = JSON.parse(jsonFile.response);
