@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="../js/common.js"></script>
+  <script src="js/common.js"></script>
 
 <style>
   body {
@@ -164,7 +164,7 @@ div .content {
               let cell2 = document.createElement("TD");
               cell2.innerHTML = dataArray[0];
               let cell3 = document.createElement("TD");
-              cell3.innerHTML = `<a href="/bingo.html?card=${dataArray[1]}" target="_blank">${domain}bingo.html?card=${dataArray[1]}</a>`;
+              cell3.innerHTML = `<a href="${domain}bingo.html?card=${dataArray[1]}" target="_blank">${domain}bingo.html?card=${dataArray[1]}</a>`;
               row.appendChild(cell1);
               row.appendChild(cell2);
               row.appendChild(cell3);
@@ -177,7 +177,7 @@ div .content {
       }
 
       function edit() {
-        let urlData = this.getCookie('urls').split('|');
+        let urlData = getCookie('urls').split('|');
         if (urlData[0] === '!' && urlData[0].length === 1) {
           urlData.splice(0,1);
           let saveDataString = urlData.join('|');
@@ -187,7 +187,7 @@ div .content {
       }
 
       function load() {
-        let urlData = this.getCookie('urls').split('|');
+        let urlData = getCookie('urls').split('|');
         if (urlData[0] === '!') {
           // Form has already been submitted so just load up the URLs
           let container = document.getElementById("container");
@@ -201,7 +201,7 @@ div .content {
         }
         else if (urlData[0] !== '') {
           // Form hasn't been submitted yet or clicked edit so load up saved progress
-          let cookieData = this.getCookie('urls').split('|');
+          let cookieData = getCookie('urls').split('|');
           for (let player of cookieData) {
             let playerData = player.split(':');
             if (playerData[0] !== '!') {
