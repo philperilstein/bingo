@@ -21,6 +21,11 @@
     .modal-footer-full-width  {
         border-top: 1px solid #9ea2a2 !important;
     }
+    .modal-table-div {
+        text-align: "center";
+        margin: "auto";
+    }
+
     table {
         table-layout: fixed;
         text-align: center;

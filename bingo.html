@@ -16,7 +16,7 @@
     <link href="css/style.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body onresize="resizeBoards()">
     <h1>HostVirtualBingo.com</h1>
     <div id="cardThumbsContainer" class="container-fluid" style="text-align: center;">
       <div class="row">
@@ -41,7 +41,18 @@
       </div>
     </div>
     
-
+      <script>
+        function resizeBoards() {
+          let modalBoards = document.getElementsByClassName("modal-table-div");
+          let windowWidth = window.innerWidth;
+          let windowHeight = window.innerHeight;
+          if (windowWidth > windowHeight) {
+            for (let board of modalBoards) {
+              board.style.maxWidth = `${windowHeight}px`;
+            }
+          }
+        }
+      </script>
       <script type="module">
         import { init } from './js/bingo.js';
         init();

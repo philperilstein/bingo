@@ -30,8 +30,6 @@ export default class BingoGame {
         // Remove example code
         let modalExample = document.getElementById('exampleModalPreview');
         modalExample.remove();
-        let modalButton = document.getElementById('modalActivate');
-        modalButton.remove();
     }
 
     /**
@@ -111,7 +109,6 @@ export default class BingoGame {
         cardBody.id = bingoCard._cardNumber;
         cardTable.appendChild(cardBody);
 
-        modalContainer.appendChild(cardTable);
         let cardData = bingoCard._cardData;
         for (let row = 0; row < cardData.length; row++) {
           let tr = document.createElement("TR");
@@ -127,6 +124,22 @@ export default class BingoGame {
           }
           cardBody.appendChild(tr);
         }
+
+        let cardDiv = document.createElement("DIV");
+
+        let windowWidth = window.innerWidth;
+        let windowHeight = window.innerHeight;
+
+        let divWidth;
+        if (windowWidth > windowHeight) {
+            divWidth = `${windowHeight}px`;
+        }
+        cardDiv.style.maxWidth = divWidth;
+        cardDiv.className = "modal-table-div";
+        cardDiv.style.textAlign = "center";
+        cardDiv.style.margin = "auto";
+        cardDiv.appendChild(cardTable);
+        modalContainer.appendChild(cardDiv);
     }
 
     /**
