@@ -46,7 +46,7 @@ div .content {
   </div>
   
   <div class="panel panel-default">
-    <h1>Host Virtual Bingo [dot] [com]</h1>
+    <h1>HostVirtualBingo.com</h1>
     <div class="panel-body">
 
       <div id="container" class="panel panel-default">
@@ -111,6 +111,11 @@ div .content {
     </div>
   </div>
   
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+      });
+    </script>
 
     <script>
       load();
@@ -147,10 +152,12 @@ div .content {
           numHeader.textContent = "";
           let nameHeader = document.createElement("TH");
           nameHeader.textContent = "Player";
+          let copyButtonCell = document.createElement("TH");
           let urlHeader = document.createElement("TH");
           urlHeader.textContent = "Cards URL";
           headerRow.appendChild(numHeader);
           headerRow.appendChild(nameHeader);
+          headerRow.appendChild(copyButtonCell);
           headerRow.appendChild(urlHeader);
           table.appendChild(tableHead);
           let tableBody = document.createElement("TBODY");
@@ -164,16 +171,40 @@ div .content {
               let cell2 = document.createElement("TD");
               cell2.innerHTML = dataArray[0];
               let cell3 = document.createElement("TD");
-              cell3.innerHTML = `<a href="${domain}bingo.html?card=${dataArray[1]}" target="_blank">${domain}bingo.html?card=${dataArray[1]}</a>`;
+              let copyButton = document.createElement("BUTTON");
+              copyButton.type = "button";
+              copyButton.title = "Copy URL";
+              copyButton.rel="tooltip";
+              copyButton.dataset.toggle = "tooltip";
+              copyButton.className = "btn btn-default";
+              copyButton.innerHTML = `<span class="glyphicon glyphicon-copy"></span>`;
+              copyButton.addEventListener('click', copyURL);
+              cell3.appendChild(copyButton);
+              let cell4 = document.createElement("TD");
+              cell4.innerHTML = `<a href="${domain}bingo.html?card=${dataArray[1]}" target="_blank">${domain}bingo.html?card=${dataArray[1]}</a>`;
               row.appendChild(cell1);
               row.appendChild(cell2);
               row.appendChild(cell3);
+              row.appendChild(cell4);
               tableBody.appendChild(row);
             }
             i++;
           }
           table.appendChild(tableBody);
           return table;
+      }
+      
+      /**
+       * Function to copy the url
+       */
+      function copyURL(event) {
+        let tableRow = event.currentTarget.parentNode.parentNode;
+        let url = tableRow.childNodes[tableRow.childNodes.length-1].innerText;
+        let $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(url).select();
+        document.execCommand("copy");
+        $temp.remove();
       }
 
       function edit() {
