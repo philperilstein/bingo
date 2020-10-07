@@ -143,11 +143,15 @@ div .content {
       }
 
       function buildURLTable(urlData) {
+          let tableDiv = document.createElement("DIV");
+          tableDiv.className = "table-responsive";
           let domain = window.location.href;
           let table = document.createElement("TABLE");
-          table.className = "table table-striped";
+          tableDiv.appendChild(table);
+          table.className = "table table-striped table-condensed";
           let tableHead = document.createElement("THEAD");
           let headerRow = document.createElement("TR");
+          headerRow.className = "row";
           tableHead.append(headerRow);
           let numHeader = document.createElement("TH");
           numHeader.textContent = "";
@@ -167,6 +171,7 @@ div .content {
             if (data[0] !== '!') {
               let dataArray = data.split(':');
               let row = document.createElement("TR");
+              row.className = "row";
               let cell1 = document.createElement("TD");
               cell1.innerHTML = i;
               let cell2 = document.createElement("TD");
@@ -192,7 +197,7 @@ div .content {
             i++;
           }
           table.appendChild(tableBody);
-          return table;
+          return tableDiv;
       }
       
       /**
