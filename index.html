@@ -20,6 +20,10 @@ div .content {
   display: flex;
   align-items: center;  /*Aligns vertically center */
 }
+.panel-default > .panel-heading-custom {
+  /* color: #FFD449; background:#218F02;  */
+  /* color: white; background: darkslategray; */
+}
 </style>
 
 </head>
@@ -40,12 +44,16 @@ div .content {
     </div>
   </div>
   
-    <div style="text-align: center">
-    <img src="images/logo1.png" width="300px" /></div>
+    <div style="width: 100%;">
+      <div style="max-width: 50%; margin-left: auto; margin-right: auto;">
+        <img src="images/logo1.png" class="img-responsive" />
+      </div>
+    </div>
+    
     <div class="panel-body">
 
       <div id="container" class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-custom">
           Generate BINGO Cards
         </div>
         <div id="form" class="panel-body">
@@ -61,7 +69,7 @@ div .content {
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-custom">
           FAQs
         </div>
         <div class="panel-body">

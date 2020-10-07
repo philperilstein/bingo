@@ -188,7 +188,7 @@ export default class BingoGame {
         let BINGO = ['B','I','N','G','O'];
         for (let letter of BINGO) {
             let td = document.createElement("TD");
-            td.innerHTML = `<div class="content">${letter}</div>`;
+            td.innerHTML = `<div class="content"><span style="font-size: 2vw; font-weight:bold;">${letter}</span></div>`;
             td.className = "unselected";
             headerRow.appendChild(td);
         }
@@ -200,7 +200,7 @@ export default class BingoGame {
           let tr = document.createElement("TR");
           for (let column = 0; column < cardData[row].length; column++) {
             let td = document.createElement("TD");
-            td.innerHTML = `<div class="content"></div>`;
+            td.innerHTML = `<div class="content"><span style="font-size:1.2vw";>${cardData[row][column]}</span></div>`;
             td.id = `thumb-${bingoCard._cardNumber}-${row}-${column}`;
             td.className = board[i] === '1' ?  'selected' : 'unselected';
             tr.appendChild(td);

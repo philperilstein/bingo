@@ -18,7 +18,13 @@
   </head>
 
   <body onresize="resizeWindow()">
-    <img src="images/logo1.png" id="logo" />
+    
+    <div style="max-width: 100%;">
+      <div style="max-width: 50%; margin-left: auto; margin-right: auto;">
+        <img src="images/logo1.png" style="max-width: 100%" class="img-responsive" />
+      </div>
+    </div>
+
     <div id="cardThumbsContainer" class="container-fluid" style="text-align: center;">
       <div class="row">
       </div>
@@ -52,8 +58,6 @@
               board.style.maxWidth = `${windowHeight}px`;
             }
           }
-          let logo = document.getElementById("logo");
-          logo.width = windowWidth / 4;
         }
       </script>
       <script type="module">
