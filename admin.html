@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title></title>
+  <title>Host Virtual Bingo</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -22,6 +22,9 @@ table {
 td.header {
   font-size: 20px;
 }
+body {
+    background-color: lightgray;
+  }
 </style>
 </head>
 <body>
@@ -41,13 +44,13 @@ td.header {
     </div>
   </div>
 
-
 <div class="container">
 <div class="page-header">
 
 <div class="row">
     <div class="col-sm-4">
-      <p style="font-size: 30px">Bingo Admin Console</p>
+      <img src="images/logo1.png" width="200px" />
+      <p style="font-size: 20px">Admin Console</p>
     </div>
     <div class="col-sm-8">
       <form action="#" onsubmit="return false;">
@@ -67,6 +70,7 @@ td.header {
 
 </div><!-- End page-header -->
 
+<div style="background-color: white">
 <table class="table-striped table-bordered bingo" style="width: 100%">
 <tr><td class="header">B</td><td id="B1"></td><td id="B2"></td><td id="B3"></td><td id="B4"></td><td id="B5"></td><td id="B6"></td><td id="B7"></td><td id="B8"></td><td id="B9"></td><td id="B10"></td><td id="B11"></td><td id="B12"></td><td id="B13"></td><td id="B14"></td><td id="B15"></td></tr>
 <tr><td class="header">I</td><td id="I16"></td><td id="I17"></td><td id="I18"></td><td id="I19"></td><td id="I20"></td><td id="I21"></td><td id="I22"></td><td id="I23"></td><td id="I24"></td><td id="I25"></td><td id="I26"></td><td id="I27"></td><td id="I28"></td><td id="I29"></td><td id="I30"></td></tr>
@@ -74,7 +78,7 @@ td.header {
 <tr><td class="header">G</td><td id="G46"></td><td id="G47"></td><td id="G48"></td><td id="G49"></td><td id="G50"></td><td id="G51"></td><td id="G52"></td><td id="G53"></td><td id="G54"></td><td id="G55"></td><td id="G56"></td><td id="G57"></td><td id="G58"></td><td id="G59"></td><td id="G60"></td></tr>
 <tr><td class="header">O</td><td id="O61"></td><td id="O62"></td><td id="O63"></td><td id="O64"></td><td id="O65"></td><td id="O66"></td><td id="O67"></td><td id="O68"></td><td id="O69"></td><td id="O70"></td><td id="O71"></td><td id="O72"></td><td id="O73"></td><td id="O74"></td><td id="O75"></td></tr>
 </table>
-
+</div>
 <hr />
 
 <!-- Progress Bar -->
@@ -103,7 +107,6 @@ td.header {
         </div>
     </div>
 </div>
-
 
 </div>
 <script type="text/javascript">

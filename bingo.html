@@ -2,6 +2,7 @@
 <html lang="en">
 
   <head>
+    <title>Play Virtual Bingo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Font Awesome -->
@@ -16,13 +17,12 @@
     <link href="css/style.css" rel="stylesheet">
   </head>
 
-  <body onresize="resizeBoards()">
-    <h1>HostVirtualBingo.com</h1>
+  <body onresize="resizeWindow()">
+    <img src="images/logo1.png" id="logo" />
     <div id="cardThumbsContainer" class="container-fluid" style="text-align: center;">
       <div class="row">
       </div>
     </div>
-
 
     <div id="modals">
       <div class="modal fade right" id="exampleModalPreview" tabindex="-1" role="dialog" aria-hidden="true">
@@ -40,9 +40,10 @@
           </div>
       </div>
     </div>
-    
+
       <script>
-        function resizeBoards() {
+        resizeWindow();
+        function resizeWindow() {
           let modalBoards = document.getElementsByClassName("modal-table-div");
           let windowWidth = window.innerWidth;
           let windowHeight = window.innerHeight;
@@ -51,6 +52,8 @@
               board.style.maxWidth = `${windowHeight}px`;
             }
           }
+          let logo = document.getElementById("logo");
+          logo.width = windowWidth / 4;
         }
       </script>
       <script type="module">
