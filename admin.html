@@ -64,7 +64,6 @@ body {
             </div>
         </div>
       </form>
-      <div id="winner-info"></div> 
     </div>
 </div>
 
@@ -203,28 +202,26 @@ document.getElementById("new-game").addEventListener("click", function(event) {
   let progressBar = document.getElementsByClassName("progress-bar")[0];
   progressBar.textContent = "0%";
   progressBar.style = "width:0%";
-  document.getElementById("winner-info").innerHTML = '';
   let pickNumButton = document.getElementById("pick-number");
   pickNumButton.className = "btn btn-default";
 });
 
 document.getElementById("check-winner").addEventListener("click", function(event) {
-  document.getElementById("winner-info").innerHTML = '';
 	let cardNumber = document.getElementById("cardNumber").value;
   if (cardNumber.length < 3) {
     cardNumber = cardNumber.padStart(3,'0');
   }
   if (cardNumber === "000" || isNaN(cardNumber)) {
-    document.getElementById("winner-info").innerHTML = 'Invalid Card Number';
+    alert('<h2 class="text-danger">Error <span class="glyphicon glyphicon-exclamation-sign"></span></h2>', `<div class="alert alert-danger">Invalid Card Number</div>`);
     return;
   }
 	loadDoc(`card_data/bingo-${cardNumber}.json`, function(jsonFile) {
   		let bingoCard = JSON.parse(jsonFile.response);
-        checkWinner(bingoCard);
+        checkWinner(bingoCard, cardNumber);
     });
 });
 
-function checkWinner(bingoCard) {
+function checkWinner(bingoCard, cardNumber) {
     console.log('Checking for traditional rules');
     let matchPos = [];
     for (let row = 0; row < bingoCard.length; row++) {
@@ -299,15 +296,18 @@ function checkWinner(bingoCard) {
         retVal.push('BLACK OUT BINGO');
     }
   
-    let winnerInfo = document.getElementById("winner-info"); 
+    let winnerInfo = ''; 
     if (retVal.length > 0) {
+      winnerInfo = '<div class="alert alert-success">';
         for (let str of retVal) {
-            winnerInfo.innerHTML += str + '<br />'; 
+            winnerInfo += str + '<br />'; 
         }
+        winnerInfo += '</div>';
     }
     else {
-        winnerInfo.innerHTML = 'Not a BINGO';
+        winnerInfo = '<div class="alert alert-info">Not a BINGO</div>';
     } 
+    alert(`<h3>Results for Card-${cardNumber}</h3>`, winnerInfo);
 }
 
 function loadDoc(file, callback) {
