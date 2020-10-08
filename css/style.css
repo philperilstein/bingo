@@ -36,10 +36,12 @@
         table-layout: fixed;
         text-align: center;
         width: 100%;
+        border: 2px solid black;
     }
     thead {
-        background-image: url("../images/watermelon-green.jpg");
-        color: #F35588;
+        background-color: #F8F5E1;
+        color: black;
+        border-bottom: 2px solid black;
     } 
     td {
         width: 20%;
@@ -47,15 +49,17 @@
         border: 1px solid black;
     }
     td.header {
+        background-color: #F8F5E1;
         font-size: 50px;
         font-weight: bold;
     } 
     td.unselected {
-        background-color: #FFBBB4;
+        background-color: #F8F5E1;
         font-size: 20px;
     }
     td.selected {
-        background-image: url("../images/watermelon-pink.jpg");
+        background-color: #218F02;
+        color: white;
         font-size: 20px;
     }
     td:after {
