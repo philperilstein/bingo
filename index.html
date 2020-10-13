@@ -3,11 +3,18 @@
 <head>
   <title>Host Virtual Bingo</title>
   <meta charset="utf-8">
+  <meta name="description" content="Host a virtual bingo game, generate bingo cards, randomly draw numbers, check winners">
+  <meta name="keywords" content="bingo, virtual, online, generate, cards, boards, draw, random">
+  <meta name="author" content="Philip Perilstein">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="js/common.js"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 
 <style>
   body {
@@ -21,28 +28,12 @@ div .content {
   align-items: center;  /*Aligns vertically center */
 }
 .panel-default > .panel-heading-custom {
-  /* background:#F8F5E1;   */
+  /* background:##FFD449;   */
 }
 </style>
 
 </head>
 <body>
-
-  <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
-          <p>Are you sure you want to edit?  You will be taken back to the edit bingo players page with your saved player info.  If you decrease the number of cards for a player or delete a player, those cards will be readded to the pool to assign to new players.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-default" onClick="edit()">Yes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
     <div style="width: 100%;">
       <div style="max-width: 50%; margin-left: auto; margin-right: auto;">
         <img src="images/logo1.png" class="img-responsive" />
@@ -51,22 +42,6 @@ div .content {
     
     <div class="panel-body">
 
-      <div id="container" class="panel panel-default">
-        <div class="panel-heading panel-heading-custom">
-          Generate BINGO Cards
-        </div>
-        <div id="form" class="panel-body">
-
-          <div class="form-group">
-          <div id="playerinfo" class="container-fluid"></div>
-            <div>
-              <button type="button" class="btn btn-primary" onClick="addPlayer()"><span class="glyphicon glyphicon-plus"></span> Add a player</button>
-              <button type="button" class="btn btn-success disabled" onClick="submitForm()" id="submitButton">Generate cards</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="panel panel-default">
         <div class="panel-heading panel-heading-custom">
           FAQs
@@ -74,7 +49,7 @@ div .content {
         <div class="panel-body">
           <p>
             Q: Sounds great, how can I create an account?<br />
-            A: No account is necessary, just <a href="">Generate BINGO cards</a>.
+            A: No account is necessary, just <a href="setup.html">Generate BINGO cards</a>.
           </p>
           <p>
             Q: Where do I give you my name, email address, phone number, and credit card information?<br />
@@ -82,11 +57,11 @@ div .content {
           </p>
           <p>
             Q: How do generate BINGO cards for a virtual game that I am hosting?<br />
-            A: <a href="">Generate BINGO cards</a>
+            A: <a href="setup.html">Generate BINGO cards</a>
           </p>
           <p>
-            Q: How do I randomly pick BINGO cards?<br />
-            A: Use the <a href="admin.html">Admin Console</a> to randomly generate and track numbers.
+            Q: How do I randomly draw BINGO numbers?<br />
+            A: Use the <a href="admin.html">Admin Console</a> to randomly draw and keep track of numbers.
           </p>
           <p>
             Q: How can I easily check if someone won or not?<br />
@@ -117,362 +92,15 @@ div .content {
           </p>
         </div>
       </div>
+
+      <div class="panel panel-default">
+        <div class="panel-body" style="font-size: 10px; color: darkGray">
+          Copyright &copy; 2020 Phil Perilstein. All rights reserved.
+        </div>
+      </div>
+
     </div>
   
-    <script type="text/javascript">
-      $(document).ready(function() {
-          $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-      });
-    </script>
-
-    <script>
-      load();
-      function createEditButton() {
-        let container = document.getElementById("container");
-        let editButton = document.createElement("BUTTON");
-        editButton.type = "button";
-        editButton.className = "btn btn-default";
-        editButton.textContent = "Edit";
-        editButton.dataset.toggle = "modal";;
-        editButton.dataset.target = "#myModal";
-        container.appendChild(editButton);
-      }
-
-      function createAdminButton() {
-        let container = document.getElementById("container");
-        let adminButton = document.createElement("BUTTON");
-        adminButton.type = "button";
-        adminButton.className = "btn btn-default";
-        adminButton.id = "adminButton";
-        adminButton.textContent = "Bingo Game Admin";
-        adminButton.addEventListener('click', function () { window.location='admin.html' });
-        container.appendChild(adminButton);
-      }
-
-      function buildURLTable(urlData) {
-          let tableDiv = document.createElement("DIV");
-          tableDiv.className = "table-responsive";
-          let domain = window.location.href;
-          let table = document.createElement("TABLE");
-          tableDiv.appendChild(table);
-          table.className = "table table-striped table-condensed";
-          let tableHead = document.createElement("THEAD");
-          let headerRow = document.createElement("TR");
-          headerRow.className = "row";
-          tableHead.append(headerRow);
-          let numHeader = document.createElement("TH");
-          numHeader.textContent = "";
-          let nameHeader = document.createElement("TH");
-          nameHeader.textContent = "Player";
-          let copyButtonCell = document.createElement("TH");
-          let urlHeader = document.createElement("TH");
-          urlHeader.textContent = "Cards URL";
-          headerRow.appendChild(numHeader);
-          headerRow.appendChild(nameHeader);
-          headerRow.appendChild(copyButtonCell);
-          headerRow.appendChild(urlHeader);
-          table.appendChild(tableHead);
-          let tableBody = document.createElement("TBODY");
-          let i = 0;
-          for (let data of urlData) {
-            if (data[0] !== '!') {
-              let dataArray = data.split(':');
-              let row = document.createElement("TR");
-              row.className = "row";
-              let cell1 = document.createElement("TD");
-              cell1.innerHTML = i;
-              let cell2 = document.createElement("TD");
-              cell2.innerHTML = dataArray[0];
-              let cell3 = document.createElement("TD");
-              let copyButton = document.createElement("BUTTON");
-              copyButton.type = "button";
-              copyButton.title = "Copy URL";
-              copyButton.rel="tooltip";
-              copyButton.dataset.toggle = "tooltip";
-              copyButton.className = "btn btn-default";
-              copyButton.innerHTML = `<span class="glyphicon glyphicon-copy"></span>`;
-              copyButton.addEventListener('click', copyURL);
-              cell3.appendChild(copyButton);
-              let cell4 = document.createElement("TD");
-              cell4.innerHTML = `<a href="${domain}bingo.html?card=${dataArray[1]}" target="_blank">${domain}bingo.html?card=${dataArray[1]}</a>`;
-              row.appendChild(cell1);
-              row.appendChild(cell2);
-              row.appendChild(cell3);
-              row.appendChild(cell4);
-              tableBody.appendChild(row);
-            }
-            i++;
-          }
-          table.appendChild(tableBody);
-          return tableDiv;
-      }
-      
-      /**
-       * Function to copy the url
-       */
-      function copyURL(event) {
-        let tableRow = event.currentTarget.parentNode.parentNode;
-        let url = tableRow.childNodes[tableRow.childNodes.length-1].innerText;
-        let $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val(url).select();
-        document.execCommand("copy");
-        $temp.remove();
-      }
-
-      function edit() {
-        let urlData = getCookie('urls').split('|');
-        if (urlData[0] === '!' && urlData[0].length === 1) {
-          urlData.splice(0,1);
-          let saveDataString = urlData.join('|');
-          setCookie('urls', saveDataString, 30);
-          location.reload();
-        }
-      }
-
-      function load() {
-        let urlData = getCookie('urls').split('|');
-        if (urlData[0] === '!') {
-          // Form has already been submitted so just load up the URLs
-          let container = document.getElementById("container");
-          (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
-          createEditButton();
-          createAdminButton();
-          let table = buildURLTable(urlData);
-          container.appendChild(table);
-          let form = document.getElementById("form");
-          container.removeChild(form);
-        }
-        else if (urlData[0] !== '') {
-          // Form hasn't been submitted yet or clicked edit so load up saved progress
-          let cookieData = getCookie('urls').split('|');
-          for (let player of cookieData) {
-            let playerData = player.split(':');
-            if (playerData[0] !== '!') {
-              addPlayer(playerData[0], playerData[1].split(','));
-            }
-          }
-          canSubmit();
-        }
-      }
-
-      function submitForm() {
-        let submitButton = document.getElementById('submitButton');
-        if (submitButton.classList.contains("disabled")) {
-          return;
-        }
-        submitButton.classList.add("disabled");
-        let playerInfo = document.getElementById("playerinfo");
-        let allBoards = new Set();
-        let saveData = [];
-        saveData.push('!');
-
-        // Populate allBoards with prev selections, process deletions
-        for (let player of playerInfo.childNodes) {
-          let numCards = parseInt((player.childNodes[2].childNodes[0]).value);
-          let assignedCards = (player.childNodes[3].childNodes[0].value).split(',');
-          assignedCards = assignedCards.length === 1 && assignedCards[0] === '' ? [] : assignedCards;
-          if (numCards < assignedCards.length) {
-            // Delete the difference
-            let diff = assignedCards.length - numCards;
-            assignedCards.splice(numCards, diff);
-            player.childNodes[3].childNodes[0].value = assignedCards.join(',');
-          }
-          assignedCards.forEach(card => allBoards.add(card));
-        }
-
-        for (let player of playerInfo.childNodes) {
-          let playerName = player.childNodes[1].childNodes[0].value;
-          let numCards = parseInt((player.childNodes[2].childNodes[0]).value);
-          let assignedCards = (player.childNodes[3].childNodes[0].value).split(',');
-          assignedCards = assignedCards.length === 1 && assignedCards[0] === '' ? [] : assignedCards;
-          let playerCards = getCards(numCards, allBoards, assignedCards);
-          saveData.push(`${playerName}:${playerCards.join()}`);
-        }
-        let container = document.getElementById("container");
-        createEditButton();
-        createAdminButton();
-        (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
-        let table = buildURLTable(saveData);
-        container.appendChild(table);
-        let saveDataString = saveData.join('|');
-        setCookie('urls', saveDataString, 30);
-        let form = document.getElementById("form");
-        container.removeChild(form);
-      }
-
-      function getCards(numCards, allBoards, assignedCards) {
-        let ret = assignedCards;
-        let rand;
-        while (ret.length < numCards) {
-          rand = (Math.floor(Math.random() * (999 - 1 + 1) + 1)).toString().padStart(3,'0');
-          if (!allBoards.has(rand)) {
-            ret.push(rand);
-            allBoards.add(rand);
-          }
-        }
-        return ret;
-      }
-
-      function typeNumCards(event) {
-        let row = event.path[2];
-        let numCards = row.childNodes[2].childNodes[0].value;
-
-        if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1 || parseInt(numCards) > 10) {
-          
-          let submitButton = document.getElementById('submitButton');
-          if (!submitButton.classList.contains("disabled")) {
-            submitButton.classList.add("disabled");
-          }
-
-          if (row.childNodes[2].className != "col-xs has-error has-feedback") {
-            row.childNodes[2].className = "col-xs has-error has-feedback";
-            if (row.childNodes[2].childNodes.length === 1) {
-              let errorThing = document.createElement("span");
-              errorThing.className = "glyphicon glyphicon-remove form-control-feedback";
-              row.childNodes[2].appendChild(errorThing);
-            }
-          }
-        }
-        else {
-          row.childNodes[2].className = "col-xs";
-          if (row.childNodes[2].childNodes.length === 2) {
-              row.childNodes[2].removeChild((row.childNodes[2]).childNodes[1]);
-          }
-        }
-        canSubmit();
-      }
-
-      function canSubmit() {
-        let submitButton = document.getElementById('submitButton');
-        let playerInfo = document.getElementById("playerinfo");
-        let totalCards = 0;
-
-        if (playerInfo.childNodes && playerInfo.childNodes.length === 0) {
-          if (!submitButton.classList.contains("disabled")) {
-            submitButton.classList.add("disabled");
-          }
-          return false;  
-        }
-
-        for (let player of playerInfo.childNodes) {
-          let numCards = parseInt(player.childNodes[2].childNodes[0].value);
-          totalCards += numCards;
-          if (player.childNodes[2].className === "col-xs has-error has-feedback") {
-            if (!submitButton.classList.contains("disabled")) {
-              submitButton.classList.add("disabled");
-            }
-            return false;
-          }
-          else if (totalCards > 500) {
-            alert(`<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>`, 'Cannot exceed 250 total cards');
-            if (!submitButton.classList.contains("disabled")) {
-              submitButton.classList.add("disabled");
-            }
-            return false;
-          }
-          else if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1) {
-            // Brand new row added
-            if (!submitButton.classList.contains("disabled")) {
-              submitButton.classList.add("disabled");
-            }
-            return false;
-          }
-        }
-        if (submitButton.classList.contains("disabled")) {
-              submitButton.classList.remove("disabled");
-        }
-
-        return true;
-      }
-
-      function reNumberRows() {
-        let playerInfo = document.getElementById("playerinfo");
-        let index = 0;
-        for (let row of playerInfo.childNodes) {
-          row.id = `row-${index}`;
-          let playerNum = row.childNodes[0];
-          playerNum.innerHTML = `${index+1}`;
-          let delButton = row.childNodes[4].childNodes[0];
-          delButton.id = index;
-          index++;
-        }
-      }
-
-      function deleteRow(event) {
-        let rowNum = event.currentTarget.id;
-        let playerInfo = document.getElementById("playerinfo");
-        let rowToRemove = document.getElementById(`row-${rowNum}`);
-        playerInfo.removeChild(rowToRemove);
-        reNumberRows();
-        canSubmit();
-      }
-
-      function addPlayer(name, cardNumbers) {
-        let playerInfo = document.getElementById("playerinfo");
-        let i = parseInt(playerInfo.childNodes.length);
-        if (i >= 50) {
-          alert(`<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>`, 'Cannot exceed 50 total players');
-          return;
-        }
-        let row = document.createElement("DIV");
-        row.className = "row content";
-        row.id = `row-${i}`;
-        let column1 = document.createElement("DIV");
-        column1.className = "col-xs";
-        column1.innerHTML = `${i+1}`;
-        let column2 = document.createElement("DIV");
-        column2.className = "col-xs";
-        let playerName = document.createElement("INPUT");
-        playerName.type = "text";
-        playerName.placeholder = "Player name";
-        playerName.className = "form-control";
-        playerName.maxLength = "30";
-        if (name) {
-          playerName.value = name;
-        }
-        column2.appendChild(playerName);
-        let column3 = document.createElement("DIV");
-        column3.className = "col-xs";
-        let numCards = document.createElement("INPUT");
-        numCards.addEventListener('input', typeNumCards);
-        numCards.type = "text";
-        numCards.placeholder = "Number of cards";
-        numCards.className = "form-control";
-        if (cardNumbers) {
-          numCards.value = cardNumbers.length;
-        }
-        column3.appendChild(numCards);
-
-        let column4 = document.createElement("DIV");
-        column4.className = "col-xs";
-        let cardNumbersInput = document.createElement("INPUT");
-        cardNumbersInput.type = "hidden";
-        if (cardNumbers) {
-          cardNumbersInput.value = cardNumbers.join(',');
-        }
-        column4.appendChild(cardNumbersInput);
-
-        let column5 = document.createElement("DIV");
-        column5.className = "col-xs";
-        let delButton = document.createElement("button");
-        delButton.innerHTML = "<span class=\"glyphicon glyphicon-trash\"></span>";
-        delButton.id = i;
-        delButton.addEventListener('click', deleteRow);
-        delButton.className = "btn btn-danger";
-        delButton.type = "button";
-        column5.appendChild(delButton);
-        row.appendChild(column1);
-        row.appendChild(column2);
-        row.appendChild(column3);
-        row.appendChild(column4);
-        row.appendChild(column5);
-        playerInfo.appendChild(row);
-        if (!submitButton.classList.contains("disabled")) {
-          submitButton.classList.add("disabled");
-        }
-      }
-    </script>
 </body>
 </html>
 

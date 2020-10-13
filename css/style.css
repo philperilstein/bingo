@@ -56,11 +56,13 @@
     td.unselected {
         background-color: #F8F5E1;
         font-size: 20px;
+        cursor: pointer;
     }
     td.selected {
         background-color: #218F02;
         color: white;
         font-size: 20px;
+        cursor: pointer;
     }
     td:after {
         content: '';

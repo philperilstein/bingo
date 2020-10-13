@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Host Virtual Bingo</title>
+  <title>Admin Console</title>
   <meta charset="utf-8">
+  <meta name="description" content="Host a virtual BINGO game, Randomly draw numbers, Check for BINGO winners">
+  <meta name="keywords" content="bingo, virtual, online, generate, cards, boards, draw, random">
+  <meta name="author" content="Philip Perilstein">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="js/common.js"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 <style>
 table {
   width: "100%";
@@ -51,7 +58,7 @@ body {
     <div class="col-sm-4">
       <div style="width: 100%;">
         <div style="max-width: 50%; margin-left: 0; margin-right: auto;">
-          <img src="images/logo1.png" class="img-responsive" />
+          <a href="/" title="home"><img src="images/logo1.png" class="img-responsive" /></a>
           <p style="font-size: 20px">Admin Console</p>
         </div>
       </div>
@@ -193,7 +200,7 @@ document.getElementById("pick-number").addEventListener("click", function(event)
 });
 
 document.getElementById("game-setup").addEventListener("click", function(event) {
-  window.location='/';
+  window.location='setup.html';
 });
 
 document.getElementById("new-game").addEventListener("click", function(event) {

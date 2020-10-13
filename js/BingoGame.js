@@ -65,10 +65,16 @@ export default class BingoGame {
             clearBoard(cardNumber);
         });
         buttonGroup.appendChild(clearBoardButton);
+        let printBoardButton = document.createElement("BUTTON");
+        printBoardButton.className = "btn btn-default";
+        printBoardButton.addEventListener("click", function () {
+            window.open(`card_pdf/${cardNumber}.pdf`, '_blank');
+        });
+        printBoardButton.innerHTML = `<span class="glyphicon glyphicon-print"></span> Print Board`;
+        buttonGroup.appendChild(printBoardButton);
         return buttonGroup;
         // <div class="btn-group">
         // <button type="button" class="btn btn-default" onclick="clearBoard()"><span class="glyphicon glyphicon-refresh"></span> Clear Board</button>
-        // <button type="button" class="btn btn-default" onclick="printBoard()"><span class="glyphicon glyphicon-print"></span> Print Board</button>
         // <button type="button" class="btn btn-default" onclick="window.open('rules.html')"><span class="glyphicon glyphicon-question-sign"></span> Rules</button>
         // </div>
     }

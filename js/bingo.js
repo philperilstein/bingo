@@ -21,9 +21,3 @@ function getCardNumbers() {
     var string = reg.exec(href);
     return string ? string[1].split(',') : null;
 }
-
-export function printBoard() {
-    window.print();
-}
-  
-
