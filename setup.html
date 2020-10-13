@@ -275,7 +275,7 @@ div .content {
         let row = event.path[2];
         let numCards = row.childNodes[2].childNodes[0].value;
 
-        if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1 || parseInt(numCards) > 10) {
+        if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1 || parseInt(numCards) > 10 || !Number.isInteger(parseFloat(numCards))) {
           
           let submitButton = document.getElementById('submitButton');
           if (!submitButton.classList.contains("disabled")) {

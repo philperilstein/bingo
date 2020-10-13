@@ -222,7 +222,7 @@ document.getElementById("check-winner").addEventListener("click", function(event
   if (cardNumber.length < 3) {
     cardNumber = cardNumber.padStart(3,'0');
   }
-  if (cardNumber === "000" || isNaN(cardNumber)) {
+  if (cardNumber === "000" || isNaN(cardNumber) || cardNumber.includes('.')) {
     alert('<h2 class="text-danger">Error <span class="glyphicon glyphicon-exclamation-sign"></span></h2>', `<div class="alert alert-danger">Invalid Card Number</div>`);
     return;
   }
