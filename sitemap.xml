@@ -1,0 +1,24 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    <url>
+        <loc>https://hostvirtualbingo.com</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+        <lastmod>2020-10-17</lastmod>
+        <image:image>
+            <image:loc>https://hostvirtualbingo.com/images/logo1.png</image:loc>
+            <image:title>Logo</image:title>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://hostvirtualbingo.com/setup.html</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.75</priority>
+        <lastmod>2020-10-17</lastmod>
+    </url>
+    <url>
+        <loc>https://hostvirtualbingo.com/admin</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.75</priority>
+        <lastmod>2020-10-17</lastmod>
+    </url>
+</urlset>

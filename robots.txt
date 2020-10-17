@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /bingo.html
+
+Sitemap: https://hostvirtualbingo.com/sitemap.xml
