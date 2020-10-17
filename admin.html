@@ -98,7 +98,7 @@ body {
       <form action="#" onsubmit="return false;">
         <div class="input-group">
             <span class="input-group-addon">Check Winner</span>
-            <input type="text" class="form-control" maxlength="3" id="cardNumber" placeholder="Card Number">
+            <input type="text" class="form-control" maxlength="3" autocomplete="off" id="cardNumber" placeholder="Card Number">
             <div class="input-group-btn">
                 <button class="btn btn-default" id="check-winner" type="submit">
                     <i class="glyphicon glyphicon-search"></i>
@@ -270,7 +270,7 @@ function generateVisual(bingoCard) {
   let BINGO = ['B','I','N','G','O'];
   for (let letter of BINGO) {
       let td = document.createElement("TD");
-      td.innerHTML = `<div class="content"><span style="font-size: 3vw; font-weight:bold;">${letter}</span></div>`;
+      td.innerHTML = `<div class="content"><span style="font-size: 4vw; font-weight:bold;">${letter}</span></div>`;
       headerRow.appendChild(td);
   }
   cardTable.appendChild(headerRow);
@@ -284,7 +284,7 @@ function generateVisual(bingoCard) {
       if (drawnNumbers.has(bingoNumber) || bingoNumber === 'FREE SPACE') {
         td.classList.add("selected");
       }
-      td.innerHTML = `<div class="content"><span style="font-size: 1vw";>${bingoNumber}</span></div>`;
+      td.innerHTML = `<div class="content"><span style="font-size: 2vw";>${bingoNumber}</span></div>`;
       tr.appendChild(td);
       i++;
     }
@@ -384,7 +384,7 @@ function checkWinner(bingoCard, cardNumber) {
     let alertContent = document.createElement("DIV");
     alertContent.innerHTML = winnerInfo;
     alertContent.appendChild(table);
-    alert(`<h3>Results for Card-${cardNumber} (${playerName})</h3>`, alertContent);
+    alert(`<h3>Results for Card-${cardNumber}</h3><h5>Player Name: ${playerName}</h5>`, alertContent);
 }
 
 function getPlayerName(cardNumber) {
@@ -399,7 +399,7 @@ function getPlayerName(cardNumber) {
       }
     }
   }
-  return "<span style=\"color:red\">UNASSIGNED</span>";
+  return `<span class="text-danger">UNASSIGNED</span>`;
 }
 
 function loadDoc(file, callback) {

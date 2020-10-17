@@ -27,6 +27,9 @@ export default class BingoGame {
                 console.log(err);
             }
         }
+
+        // this.fixFinalRow(); // Remove empty space and make boards bigger
+
         // Remove example code
         let modalExample = document.getElementById('exampleModalPreview');
         modalExample.remove();
@@ -60,6 +63,7 @@ export default class BingoGame {
         let buttonGroup = document.createElement("DIV");
         let clearBoardButton = document.createElement("BUTTON");
         clearBoardButton.className = "btn btn-default";
+        clearBoardButton.style="border-radius: 4px; color: #000000; background-color: #FFFFFF !important;";
         clearBoardButton.innerHTML = "<span class=\"glyphicon glyphicon-refresh\"></span> Clear Board";
         clearBoardButton.addEventListener("click", function() {
             clearBoard(cardNumber);
@@ -67,16 +71,13 @@ export default class BingoGame {
         buttonGroup.appendChild(clearBoardButton);
         let printBoardButton = document.createElement("BUTTON");
         printBoardButton.className = "btn btn-default";
+        printBoardButton.style="border-radius: 4px; color: #000000; background-color: #FFFFFF !important;";
         printBoardButton.addEventListener("click", function () {
             window.open(`card_pdf/${cardNumber}.pdf`, '_blank');
         });
         printBoardButton.innerHTML = `<span class="glyphicon glyphicon-print"></span> Print Board`;
         buttonGroup.appendChild(printBoardButton);
         return buttonGroup;
-        // <div class="btn-group">
-        // <button type="button" class="btn btn-default" onclick="clearBoard()"><span class="glyphicon glyphicon-refresh"></span> Clear Board</button>
-        // <button type="button" class="btn btn-default" onclick="window.open('rules.html')"><span class="glyphicon glyphicon-question-sign"></span> Rules</button>
-        // </div>
     }
 
     renderModal(bingoCard) {
@@ -91,13 +92,6 @@ export default class BingoGame {
         modalFooter.appendChild(this._getCardButtons(bingoCard._cardNumber));
         let modalsContainer = document.getElementById('modals');
         modalsContainer.appendChild(modalClone);
-        // let modalButton = document.getElementById('modalActivate');
-        // let modalButtonClone = modalButton.cloneNode(true);
-        // modalButtonClone.id = `modalButton_${bingoCard._cardNumber}`;
-        // modalButtonClone.dataset.target = `#modal_${bingoCard._cardNumber}`;
-        // modalButtonClone.textContent = `Card-${bingoCard._cardNumber}`;
-        // let modalButtonsContainer = document.getElementById('modalButtons');
-        // modalButtonsContainer.appendChild(modalButtonClone);
         return modalBody;
     }
 
@@ -165,6 +159,28 @@ export default class BingoGame {
             }
         }
     }
+
+    // fixFinalRow() {
+    //     let cardThumbContainer = document.getElementById('cardThumbsContainer');
+    //     let rows = cardThumbContainer.getElementsByClassName('row');
+    //     let finalRow = rows[rows.length-1];
+    //     let cards = finalRow.getElementsByClassName('col-3 p-1');
+    //     if (cards.length < 4) {
+    //         if (cards.length === 3) {
+    //             for (let i=2; i>=0; i--) {
+    //                 cards[i].className = "col-4 p-1";
+    //             }
+    //         }
+    //         else if (cards.length === 2) {
+    //             for (let i=1; i>=0; i--) {
+    //                 cards[i].className = "col-6 p-1";
+    //             }
+    //         }
+    //         else if (cards.length === 1) {
+    //             cards[0].className = "col-12 p-1";
+    //         }
+    //     }
+    // }
 
     /**
      * Function that renders the bingo card on the page
