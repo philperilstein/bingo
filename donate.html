@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Host Virtual Bingo</title>
+  <title>Support HostVirtualBingo.com</title>
   <meta charset="utf-8">
-  <meta name="description" content="Host a virtual bingo game, generate bingo cards, randomly draw numbers, check winners">
-  <meta name="keywords" content="bingo, virtual, online, generate, cards, boards, draw, random">
+  <meta name="description" content="Support HostVirtualBingo.com - Host a virtual bingo game, generate bingo cards, randomly draw numbers, check winners">
+  <meta name="keywords" content="bingo, virtual, online, generate, cards, boards, draw, random, donate, support">
   <meta name="author" content="Philip Perilstein">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -23,11 +23,6 @@
   }
   main {
     font-size: 10pt;
-    color: #222222;
-    font-family: monospace;
-  }
-  footer {
-    font-size: 10pt; 
     color: #222222;
     font-family: monospace;
   }
@@ -69,62 +64,42 @@
           <li><a href="setup.html">Generate cards</a></li>
           <li><a href="admin.html">Host game</a></li>
           <li><a href="faq.html">FAQs</a></li>
-          <li><a href="donate.html">Donate</a></li>
+          <li class="active"><a href="donate.html">Donate</a></li>
           <li><a href="rules.html">Rules</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <div class="container-fluid">
+  <main>
+    <div class="container-fluid">
 
-    <header>
       <div class="page-header" style="margin-top:50px;">
         <div style="max-width: 50%; margin-left: auto; margin-right: auto;">
-          <img src="images/logo1.png" class="img-responsive" />
+          <a href="/" title="home"><img src="images/logo1.png" class="img-responsive" /></a>
         </div>
       </div>
-    </header>
-    
-    <main>
+      
       <div class="panel panel-default">
         <div class="panel-body">
-            <h3>Welcome to HostVirtualBingo.com</h3>
-            <p>If you would like to host your own virtual bingo game, please follow these simple steps:</p>
-            <h5>Prepare for the BINGO game</h5>
-          <ol>
-            <li>Select Generate cards from the top links</li>
-            <li>Select Add a player</li>
-            <li>Type the player's name</li>
-            <li>Type the number of bingo cards that player wants to play for each game</li>
-            <li>To add additional players click repeat steps 1-3 above</li>
-            <li>Copy the URLs and send to the player next to the link</li>
-          </ol>
-          <br />
-          <h5>Play BINGO</h5>
-          <ol>
-            <li>When you are ready to play select Host game from the top links</li>
-            <li>To randomly draw a BINGO number, select Pick number from the Admin actions section</li>
-            <li>The randomly selected number will be displayed in the Picked numbers section</li>
-            <li>When a player thinks they have a BINGO, ask for their card number</li>
-            <li>Type the card number into the "Check Winner" section to check if the player has BINGO</li>
-            <li>A display will be shown with the player's card, player's name and any possible BINGOs</li>
-            <li>When you are ready to start a new game, select New game from the Admin actions section</li>
-            <li>Repeat steps 2-7</li>
-          </ol>
+          <h2>Please help support HostVirtualBingo.com</h2>
+          <p>
+            Hosting your own BINGO game at HostVirtualBingo.com is completely free!
+            And you may have noticed that there are no annoying advertisements anywhere on the site!  
+            However, there are costs to keeping this site up and running.
+            If you enjoy hosting virtual BINGO on this site, or you enjoy playing, please consider making a small donation to help keep this site running.
+          </p>
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick" />
+            <input type="hidden" name="hosted_button_id" value="6HG6KQYGRB5ZY" />
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+            <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+          </form>
+          <h3>Thank you!</h3>
         </div>
       </div>
-    </main>
-    
-    <footer>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          Copyright &copy; 2020 Phil Perilstein. All rights reserved.
-        </div>
-      </div>
-    </footer>
-
-  </div> <!-- End Container-->
+    </div> <!-- End Container-->
+  </main>
 </body>
 </html>
 

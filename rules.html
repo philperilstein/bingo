@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>BINGO Rules</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Game Rules - Host a virtual bingo game, generate bingo cards, randomly draw numbers, check winners">
+  <meta name="keywords" content="bingo, virtual, online, generate, cards, boards, draw, random, donate, support">
+  <meta name="author" content="Philip Perilstein">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="js/common.js"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+<style>
+  body {
+    background-color: #9d9d9d;
+    color: #222222;
+  }
+  main {
+    font-size: 10pt;
+    color: #222222;
+    font-family: monospace;
+  }
+  .panel-default > .panel-heading-custom {
+      background: #222222;
+      color: #9d9d9d;
+  }
+  .navbar-custom {
+    border-radius: 0px;
+  }
+  .navbar-custom a:hover {
+    color: #ffd449 !important;
+  }
+  .navbar-brand {
+    padding: 0px; /* firefox bug fix */
+  }
+  .navbar-brand>img {
+    height: 100%;
+    padding: 15px; /* firefox bug fix */
+    width: auto;
+  }
+</style>
+
+</head>
+<body>
+
+  <nav id="navbar" class="navbar navbar-inverse navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+          <a class="navbar-brand" href="/"><img src="images/logo1.png" /></a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="setup.html">Generate cards</a></li>
+          <li><a href="admin.html">Host game</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="donate.html">Donate</a></li>
+          <li class="active"><a href="rules.html">Rules</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <div class="container-fluid">
+
+      <header>
+        <div class="page-header" style="margin-top:50px;">
+          <div style="max-width: 50%; margin-left: auto; margin-right: auto;">
+            <a href="/" title="home"><img src="images/logo1.png" class="img-responsive" /></a>
+          </div>
+        </div>
+      </header>
+      
+      <main>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h2>BINGO Rules</h2>
+            <p>This site uses traditional 75-ball American version of BINGO</p>
+            <h3>Ways to win</h3>
+            <ul>
+              <li><a href="javascript:displayWinType('vertical');">Vertical BINGO</a></li>
+              <li><a href="javascript:displayWinType('horizontal');">Horizontal BINGO</a></li>
+              <li><a href="javascript:displayWinType('diagonal');">Diagonal BINGO</li>
+              <li><a href="javascript:displayWinType('four-corners');">Four corners BINGO</a></li>
+              <li><a href="javascript:displayWinType('blackout');">Blackout BINGO</a></li>
+            </ul>
+          </div>
+        </div>
+      </main>
+
+    </div> <!-- End Container-->
+  </main>
+
+  <script>
+    function displayWinType(winType) {
+      switch (winType) {
+        case 'vertical':
+          alert('<h3>Vertical BINGO</h3>', `<img src="images/vertical-BINGO.png" style="width: 100%" />`);
+          break;
+        case 'horizontal':
+          alert('<h3>Horizontal BINGO</h3>', `<img src="images/horizontal-BINGO.png" style="width: 100%" />`);
+          break;
+        case 'diagonal':
+          alert('<h3>Diagonal BINGO</h3>', `<img src="images/diagonal-BINGO.png" style="width: 100%" />`);
+          break;
+        case 'four-corners':
+          alert('<h3>Four corners BINGO</h3>', `<img src="images/four-corners-BINGO.png" style="width: 100%" />`);
+          break;
+        case 'blackout':
+          alert('<h3>Blackout BINGO</h3>', `<img src="images/blackout-BINGO.png" style="width: 100%" />`);
+          break;
+      }
+      
+    }
+  </script>
+</body>
+</html>
+

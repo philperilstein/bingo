@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Generate Cards</title>
+  <title>Generate BINGO Cards</title>
   <meta charset="utf-8">
   <meta name="description" content="Host a virtual BINGO game, generate BINGO cards">
   <meta name="keywords" content="bingo, virtual, online, generate, cards, boards, draw, random">
@@ -18,19 +18,60 @@
 
 <style>
   body {
-    background-color: lightgray;
+    background-color: #9d9d9d;
+    color: #222222;
   }
-  div {
-   padding: 1px; 
-  }
-div .content {
+  div .content {
   display: flex;
   align-items: center;  /*Aligns vertically center */
-}
+  }
+  .content div {
+    padding: 4px;
+  }
+  .row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+  }
+  .navbar-custom {
+    border-radius: 0px;
+  }
+  .navbar-custom a:hover {
+    color: #ffd449 !important;
+  }
+  .navbar-brand {
+    padding: 0px; /* firefox bug fix */
+  }
+  .navbar-brand>img {
+    height: 100%;
+    padding: 15px; /* firefox bug fix */
+    width: auto;
+  }
 </style>
 
 </head>
 <body>
+
+  <nav id="navbar" class="navbar navbar-inverse navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+          <a class="navbar-brand" href="/"><img src="images/logo1.png" /></a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="setup.html">Generate cards</a></li>
+          <li><a href="admin.html">Host game</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="donate.html">Donate</a></li>
+          <li><a href="rules.html">Rules</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -50,31 +91,33 @@ div .content {
     </div>
   </div>
   
-    <div style="width: 100%;">
-      <div style="max-width: 50%; margin-left: auto; margin-right: auto;">
-        <a href="/" title="home"><img src="images/logo1.png" class="img-responsive" /></a>
-      </div>
-    </div>
+  <div class="container-fluid">
     
-    <div class="panel-body">
+    <header>
+      <div class="page-header" style="width: 100%; margin-top: 50px;">
+        <div style="max-width: 50%; margin-left: auto; margin-right: auto;">
+          <a href="/" title="home"><img src="images/logo1.png" class="img-responsive" /></a>
+        </div>
+      </div>
+    </header>
 
+    <main>
       <div id="container" class="panel panel-default">
         <div class="panel-heading panel-heading-custom">
           Generate BINGO Cards
         </div>
         <div id="form" class="panel-body">
-
           <div class="form-group">
-          <div id="playerinfo" class="container-fluid"></div>
-            <div>
+          <div id="playerinfo"></div>
+            <div style="padding-top: 4px">
               <button type="button" class="btn btn-primary" onClick="addPlayer()"><span class="glyphicon glyphicon-plus"></span> Add a player</button>
               <button type="button" class="btn btn-success disabled" onClick="submitForm()" id="submitButton">Generate cards</button>
             </div>
           </div>
         </div>
       </div>
-
-    </div>
+    </main>
+  </div>
   
     <script type="text/javascript">
       $(document).ready(function() {
@@ -93,17 +136,6 @@ div .content {
         editButton.dataset.toggle = "modal";;
         editButton.dataset.target = "#myModal";
         container.appendChild(editButton);
-      }
-
-      function createAdminButton() {
-        let container = document.getElementById("container");
-        let adminButton = document.createElement("BUTTON");
-        adminButton.type = "button";
-        adminButton.className = "btn btn-default";
-        adminButton.id = "adminButton";
-        adminButton.textContent = "Bingo Game Admin";
-        adminButton.addEventListener('click', function () { window.location='admin.html' });
-        container.appendChild(adminButton);
       }
 
       function buildURLTable(urlData) {
@@ -194,7 +226,6 @@ div .content {
           let container = document.getElementById("container");
           (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
           createEditButton();
-          createAdminButton();
           let table = buildURLTable(urlData);
           container.appendChild(table);
           let form = document.getElementById("form");
@@ -248,7 +279,6 @@ div .content {
         }
         let container = document.getElementById("container");
         createEditButton();
-        createAdminButton();
         (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
         let table = buildURLTable(saveData);
         container.appendChild(table);

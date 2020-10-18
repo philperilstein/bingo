@@ -16,9 +16,47 @@
         <lastmod>2020-10-17</lastmod>
     </url>
     <url>
-        <loc>https://hostvirtualbingo.com/admin</loc>
+        <loc>https://hostvirtualbingo.com/admin.html</loc>
         <changefreq>daily</changefreq>
         <priority>0.75</priority>
         <lastmod>2020-10-17</lastmod>
+    </url>
+    <url>
+        <loc>https://hostvirtualbingo.com/faq.html</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.75</priority>
+        <lastmod>2020-10-17</lastmod>
+    </url>
+    <url>
+        <loc>https://hostvirtualbingo.com/donate.html</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.75</priority>
+        <lastmod>2020-10-17</lastmod>
+    </url>
+    <url>
+        <loc>https://hostvirtualbingo.com/rules.html</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.75</priority>
+        <lastmod>2020-10-17</lastmod>
+        <image:image>
+            <image:loc>https://hostvirtualbingo.com/images/vertical-BINGO.png</image:loc>
+            <image:title>Vertical BINGO</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://hostvirtualbingo.com/images/horizontal-BINGO.png</image:loc>
+            <image:title>Horizontal BINGO</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://hostvirtualbingo.com/images/diagonal-BINGO.png</image:loc>
+            <image:title>diagonal BINGO</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://hostvirtualbingo.com/images/four-corners-BINGO.png</image:loc>
+            <image:title>Four corners BINGO</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://hostvirtualbingo.com/images/blackout-BINGO.png</image:loc>
+            <image:title>Blackout BINGO</image:title>
+        </image:image>
     </url>
 </urlset>

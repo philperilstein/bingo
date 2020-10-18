@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Admin Console</title>
+  <title>Host Virtual BINGO</title>
   <meta charset="utf-8">
   <meta name="description" content="Host a virtual BINGO game, Randomly draw numbers, Check for BINGO winners">
   <meta name="keywords" content="bingo, virtual, online, generate, cards, boards, draw, random">
@@ -19,7 +19,6 @@
 table {
   width: "100%";
   table-layout: fixed;
-
 }
 .bingo td {
   text-align: center;
@@ -61,11 +60,53 @@ td.selected {
   color: white;
 } 
 body {
-    background-color: lightgray;
+  background-color: #9d9d9d;
+  color: #222222;
+}
+.navbar-custom {
+  border-radius: 0px;
+}
+.navbar-custom a:hover {
+    color: #ffd449 !important;
   }
+.navbar-brand {
+  padding: 0px; /* firefox bug fix */
+}
+.navbar-brand>img {
+  height: 100%;
+  padding: 15px; /* firefox bug fix */
+  width: auto;
+}
+.progress-bar-custom {
+  background-color: #ffd449 !important;
+  color: #000000;
+}
 </style>
 </head>
 <body>
+
+  <nav id="navbar" class="navbar navbar-inverse navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+          <a class="navbar-brand" href="/"><img src="images/logo1.png" /></a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="setup.html">Generate cards</a></li>
+          <li class="active"><a href="admin.html">Host game</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="donate.html">Donate</a></li>
+          <li><a href="rules.html">Rules</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
 
   <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -82,74 +123,76 @@ body {
     </div>
   </div>
 
-<div class="container">
-<div class="page-header">
+<div class="container-fluid" style="margin-top: 50px;">
+  <div class="page-header">
 
-<div class="row">
-    <div class="col-sm-4">
-      <div style="width: 100%;">
-        <div style="max-width: 50%; margin-left: 0; margin-right: auto;">
-          <a href="/" title="home"><img src="images/logo1.png" class="img-responsive" /></a>
-          <p style="font-size: 20px">Admin Console</p>
+    <div class="row">
+        <div class="col-sm-4">
+          <div style="width: 100%;">
+            <div style="max-width: 50%; margin-left: 0; margin-right: auto;">
+              <a href="/" title="home"><img src="images/logo1.png" class="img-responsive" /></a>
+              <p style="font-size: 20px">Admin Console</p>
+            </div>
+          </div>
         </div>
-      </div>
+        <div class="col-sm-8">
+          <form action="#" onsubmit="return false;">
+            <div class="input-group">
+                <span class="input-group-addon">Check Winner</span>
+                <input type="text" class="form-control" maxlength="3" autocomplete="off" id="cardNumber" placeholder="Card Number">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" id="check-winner" type="submit">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </div>
+            </div>
+          </form>
+        </div>
     </div>
-    <div class="col-sm-8">
-      <form action="#" onsubmit="return false;">
-        <div class="input-group">
-            <span class="input-group-addon">Check Winner</span>
-            <input type="text" class="form-control" maxlength="3" autocomplete="off" id="cardNumber" placeholder="Card Number">
-            <div class="input-group-btn">
-                <button class="btn btn-default" id="check-winner" type="submit">
-                    <i class="glyphicon glyphicon-search"></i>
-                </button>
+
+  </div><!-- End page-header -->
+
+  <main>
+    <div style="background-color: white">
+      <table class="table-striped table-bordered bingo" style="width: 100%">
+      <tr><td class="header">B</td><td id="B1"></td><td id="B2"></td><td id="B3"></td><td id="B4"></td><td id="B5"></td><td id="B6"></td><td id="B7"></td><td id="B8"></td><td id="B9"></td><td id="B10"></td><td id="B11"></td><td id="B12"></td><td id="B13"></td><td id="B14"></td><td id="B15"></td></tr>
+      <tr><td class="header">I</td><td id="I16"></td><td id="I17"></td><td id="I18"></td><td id="I19"></td><td id="I20"></td><td id="I21"></td><td id="I22"></td><td id="I23"></td><td id="I24"></td><td id="I25"></td><td id="I26"></td><td id="I27"></td><td id="I28"></td><td id="I29"></td><td id="I30"></td></tr>
+      <tr><td class="header">N</td><td id="N31"></td><td id="N32"></td><td id="N33"></td><td id="N34"></td><td id="N35"></td><td id="N36"></td><td id="N37"></td><td id="N38"></td><td id="N39"></td><td id="N40"></td><td id="N41"></td><td id="N42"></td><td id="N43"></td><td id="N44"></td><td id="N45"></td></tr>
+      <tr><td class="header">G</td><td id="G46"></td><td id="G47"></td><td id="G48"></td><td id="G49"></td><td id="G50"></td><td id="G51"></td><td id="G52"></td><td id="G53"></td><td id="G54"></td><td id="G55"></td><td id="G56"></td><td id="G57"></td><td id="G58"></td><td id="G59"></td><td id="G60"></td></tr>
+      <tr><td class="header">O</td><td id="O61"></td><td id="O62"></td><td id="O63"></td><td id="O64"></td><td id="O65"></td><td id="O66"></td><td id="O67"></td><td id="O68"></td><td id="O69"></td><td id="O70"></td><td id="O71"></td><td id="O72"></td><td id="O73"></td><td id="O74"></td><td id="O75"></td></tr>
+      </table>
+    </div>
+    <hr />
+
+    <!-- Progress Bar -->
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-custom" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+            0%
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Admin actions</div>
+                <div class="panel-body">
+                    <button class="btn btn-default" id="pick-number">Pick Number</button>
+                    <button class="btn btn-default" data-target="#myModal" data-toggle="modal">New Game</button>
+                </div>
             </div>
         </div>
-      </form>
-    </div>
-</div>
-
-</div><!-- End page-header -->
-
-<div style="background-color: white">
-<table class="table-striped table-bordered bingo" style="width: 100%">
-<tr><td class="header">B</td><td id="B1"></td><td id="B2"></td><td id="B3"></td><td id="B4"></td><td id="B5"></td><td id="B6"></td><td id="B7"></td><td id="B8"></td><td id="B9"></td><td id="B10"></td><td id="B11"></td><td id="B12"></td><td id="B13"></td><td id="B14"></td><td id="B15"></td></tr>
-<tr><td class="header">I</td><td id="I16"></td><td id="I17"></td><td id="I18"></td><td id="I19"></td><td id="I20"></td><td id="I21"></td><td id="I22"></td><td id="I23"></td><td id="I24"></td><td id="I25"></td><td id="I26"></td><td id="I27"></td><td id="I28"></td><td id="I29"></td><td id="I30"></td></tr>
-<tr><td class="header">N</td><td id="N31"></td><td id="N32"></td><td id="N33"></td><td id="N34"></td><td id="N35"></td><td id="N36"></td><td id="N37"></td><td id="N38"></td><td id="N39"></td><td id="N40"></td><td id="N41"></td><td id="N42"></td><td id="N43"></td><td id="N44"></td><td id="N45"></td></tr>
-<tr><td class="header">G</td><td id="G46"></td><td id="G47"></td><td id="G48"></td><td id="G49"></td><td id="G50"></td><td id="G51"></td><td id="G52"></td><td id="G53"></td><td id="G54"></td><td id="G55"></td><td id="G56"></td><td id="G57"></td><td id="G58"></td><td id="G59"></td><td id="G60"></td></tr>
-<tr><td class="header">O</td><td id="O61"></td><td id="O62"></td><td id="O63"></td><td id="O64"></td><td id="O65"></td><td id="O66"></td><td id="O67"></td><td id="O68"></td><td id="O69"></td><td id="O70"></td><td id="O71"></td><td id="O72"></td><td id="O73"></td><td id="O74"></td><td id="O75"></td></tr>
-</table>
-</div>
-<hr />
-
-<!-- Progress Bar -->
-<div class="progress">
-    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
-        0%
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-sm-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">Admin actions</div>
-            <div class="panel-body">
-                <button class="btn btn-default" id="pick-number">Pick Number</button>
-                <button class="btn btn-default" data-target="#myModal" data-toggle="modal">New Game</button>
-                <button class="btn btn-default" id="game-setup">Game Setup</button>
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Picked numbers</div>
+                <div class="panel-body" id="orderPicked"></div>
             </div>
         </div>
     </div>
-    <div class="col-sm-8">
-        <div class="panel panel-default">
-            <div class="panel-heading">Picked numbers</div>
-            <div class="panel-body" id="orderPicked">
-        </div>
-    </div>
-</div>
+    
+  </main>
+</div><!-- End Container -->
 
-</div>
 <script type="text/javascript">
 let drawnNumbers = new Set();
 let csvNumbers = getCookie("drawnNumbers");
@@ -228,10 +271,6 @@ document.getElementById("pick-number").addEventListener("click", function(event)
     let pickNumButton = document.getElementById("pick-number");
     pickNumButton.className = "btn btn-default disabled";
   }
-});
-
-document.getElementById("game-setup").addEventListener("click", function(event) {
-  window.location='setup.html';
 });
 
 document.getElementById("new-game").addEventListener("click", function(event) {
@@ -376,7 +415,7 @@ function checkWinner(bingoCard, cardNumber) {
         winnerInfo += '</div>';
     }
     else {
-        winnerInfo = '<div class="alert alert-info">Not a BINGO</div>';
+        winnerInfo = '<div class="alert alert-danger">Not a BINGO</div>';
     } 
 
     let table = generateVisual(bingoCard);
@@ -388,18 +427,23 @@ function checkWinner(bingoCard, cardNumber) {
 }
 
 function getPlayerName(cardNumber) {
-  let cookieData = getCookie('urls').split('|');
-  for (let player of cookieData) {
-    let playerData = player.split(':');
-    if (playerData[0] !== '!') {
-      let name = playerData[0]
-      let cards = playerData[1].split(',');
-      if (cards.includes(cardNumber)) {
-        return name;
+  try {
+    let cookieData = getCookie('urls').split('|');
+    for (let player of cookieData) {
+      let playerData = player.split(':');
+      if (playerData[0] !== '!') {
+        let name = playerData[0]
+        let cards = playerData[1].split(',');
+        if (cards.includes(cardNumber)) {
+          return name;
+        }
       }
     }
   }
-  return `<span class="text-danger">UNASSIGNED</span>`;
+  catch(err) {
+    console.log(`Error trying to get the player name`);
+  }
+  return `<span class="label label-danger">UNASSIGNED</span>`;
 }
 
 function loadDoc(file, callback) {
