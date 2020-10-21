@@ -90,6 +90,13 @@ body {
   background-color: #ffd449 !important;
   color: #000000;
 }
+.latestPick {
+  transition: background-color 1s;
+}
+.highlightLatestPick {
+  transition: background-color 1s;
+  background-color: #ffd449;
+}
 </style>
 </head>
 <body>
@@ -257,23 +264,37 @@ function drawNumber() {
   return bingoNum;
 }
 
-function updateOnDraw(num, size) {
+function clearLatestPick() {
+  let latestPick = document.getElementsByClassName('latestPick');
+  for (let block of latestPick) {
+    block.classList.remove('latestPick');
+  }
+}
+
+async function updateOnDraw(num, size, annimate) {
+    clearLatestPick();
     document.getElementById(num).textContent = num;
     document.getElementById("orderPicked").innerHTML = `Pick[${size}] ${num}<br />` + document.getElementById("orderPicked").innerHTML;
     let percentComplete = (drawnNumbers.size / 75 * 100).toFixed(2);
     let progressBar = document.getElementsByClassName("progress-bar")[0];
     progressBar.textContent = `${percentComplete}%`;
     progressBar.style = `width:${percentComplete}%`;
+    if (annimate) {
+      document.getElementById(num).classList.add('highlightLatestPick');
+      await sleep(1000);
+      document.getElementById(num).classList.add('latestPick');
+      document.getElementById(num).classList.remove('highlightLatestPick');
+    }
 }
 
 /* ##########################
  * # Create Event Listeners #
  * ##########################
  */ 
-document.getElementById("pick-number").addEventListener("click", function(event) {
+document.getElementById("pick-number").addEventListener("click", async function(event) {
   if (drawnNumbers.size < 75) {
     let num = drawNumber();
-    updateOnDraw(num, drawnNumbers.size); 
+    await updateOnDraw(num, drawnNumbers.size, true); 
   }
   
   if (drawnNumbers.size >= 75) {
@@ -288,6 +309,7 @@ document.getElementById("new-game").addEventListener("click", function(event) {
   for (let i=1; i<=75; i++) {
     document.getElementById(getBingoNumber(i)).textContent = '';
   }
+  clearLatestPick();
   document.getElementById("orderPicked").innerHTML = '';
   let progressBar = document.getElementsByClassName("progress-bar")[0];
   progressBar.textContent = "0%";

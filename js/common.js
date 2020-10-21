@@ -86,6 +86,14 @@ function uuid(){
 }
 
 /**
+ * Helper function to not return the promise for specified milliseconds
+ * @param {Number} ms number of miliseconds to wait before resolving the promise
+ */
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+/**
  * Common function to save a cookie
  * @param {String} cname the name of the cookie 
  * @param {String} cvalue the value of the cookie 
