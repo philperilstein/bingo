@@ -123,22 +123,6 @@ body {
     </div>
   </nav>
 
-
-  <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
-          <p>Are you sure you want to start a new game?  Previously selected numbers will be discarded.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" id="new-game" class="btn btn-default" data-dismiss="modal">Yes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 <div class="container-fluid" style="margin-top: 50px;">
   <div class="page-header">
 
@@ -194,7 +178,7 @@ body {
                 <div class="panel-heading">Admin actions</div>
                 <div class="panel-body">
                     <button class="btn btn-default" id="pick-number">Pick Number</button>
-                    <button class="btn btn-default" data-target="#myModal" data-toggle="modal">New Game</button>
+                    <button class="btn btn-default" id="new-game">New Game</button>
                 </div>
             </div>
         </div>
@@ -287,6 +271,21 @@ async function updateOnDraw(num, size, annimate) {
     }
 }
 
+function processNewGame() {
+  deleteCookie("drawnNumbers");
+  drawnNumbers = new Set();
+  for (let i=1; i<=75; i++) {
+    document.getElementById(getBingoNumber(i)).textContent = '';
+  }
+  clearLatestPick();
+  document.getElementById("orderPicked").innerHTML = '';
+  let progressBar = document.getElementsByClassName("progress-bar")[0];
+  progressBar.textContent = "0%";
+  progressBar.style = "width:0%";
+  let pickNumButton = document.getElementById("pick-number");
+  pickNumButton.className = "btn btn-default";
+}
+
 /* ##########################
  * # Create Event Listeners #
  * ##########################
@@ -304,18 +303,11 @@ document.getElementById("pick-number").addEventListener("click", async function(
 });
 
 document.getElementById("new-game").addEventListener("click", function(event) {
-  deleteCookie("drawnNumbers");
-  drawnNumbers = new Set();
-  for (let i=1; i<=75; i++) {
-    document.getElementById(getBingoNumber(i)).textContent = '';
-  }
-  clearLatestPick();
-  document.getElementById("orderPicked").innerHTML = '';
-  let progressBar = document.getElementsByClassName("progress-bar")[0];
-  progressBar.textContent = "0%";
-  progressBar.style = "width:0%";
-  let pickNumButton = document.getElementById("pick-number");
-  pickNumButton.className = "btn btn-default";
+  let header = `<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
+          <p>Are you sure you want to start a new game?  Previously selected numbers will be discarded.</p>`;
+  let footer = `<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" onclick="processNewGame()" class="btn btn-default" data-dismiss="modal">Yes</button>`;
+  alert(header, undefined, footer);
 });
 
 document.getElementById("check-winner").addEventListener("click", function(event) {
@@ -364,7 +356,6 @@ function generateVisual(bingoCard) {
 }
 
 function checkWinner(bingoCard, cardNumber) {
-    console.log('Checking for traditional rules');
     let matchPos = [];
     for (let row = 0; row < bingoCard.length; row++) {
         for (let column = 0; column < bingoCard[row].length; column++) {
@@ -466,7 +457,7 @@ function getPlayerName(cardNumber) {
         let name = playerData[0]
         let cards = playerData[1].split(',');
         if (cards.includes(cardNumber)) {
-          return name;
+          return `<span class="label label-success">${name}</span>`;
         }
       }
     }

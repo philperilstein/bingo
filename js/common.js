@@ -1,7 +1,7 @@
 /**
  * Function to overwrite default alert and create a custom alert modal
  * @param {String} [title] the title for the alert, if not truthy, then no header will be displayed
- * @param {String|Object} content the string or HTML DOM content 
+ * @param {String|Object} [content] the string or HTML DOM content 
  * @param {String|Object} [footerContent] the optional string or HTML DOM Object for the footer
  */
 function alert(title, content, footerContent) {
@@ -38,16 +38,18 @@ function alert(title, content, footerContent) {
         modalHeader.appendChild(headerText);
         modalContent.appendChild(modalHeader);
     }
-    let modalBody = document.createElement("DIV");
-    modalBody.className = "modal-body";
-    if (typeof content === "string") {
-        modalBody.innerHTML = content;
-    }
-    else if (typeof content === "object") {
-        modalBody.appendChild(content);
-    }
-
-    modalContent.appendChild(modalBody);            
+    
+    if (content) {
+        let modalBody = document.createElement("DIV");
+        modalBody.className = "modal-body";
+        if (typeof content === "string") {
+            modalBody.innerHTML = content;
+        }
+        else if (typeof content === "object") {
+            modalBody.appendChild(content);
+        }
+        modalContent.appendChild(modalBody);     
+    }       
 
     if (footerContent) {
         let modalFooter = document.createElement("DIV");

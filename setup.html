@@ -82,24 +82,6 @@
     </div>
   </nav>
 
-  <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
-          <p>If you decrease the number of cards for an existing player, their URL will change, and removed cards will be readded to the pool of available card numbers.</p>
-          <p>Likewise, if you remove a player, their assigned cards will be also be readded to the pool to assign to new players.</p>
-          <p>Howevever, if you do not edit the number of cards for a player, their URL will remain unchanged.</p>
-          <p>Are you sure you want to edit?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-default" onClick="edit()">Yes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
   <div class="container-fluid">
     
     <header>
@@ -144,6 +126,16 @@
         editButton.textContent = "Edit";
         editButton.dataset.toggle = "modal";;
         editButton.dataset.target = "#myModal";
+        editButton.addEventListener("click", function() {
+          let header = `<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
+          <p>If you decrease the number of cards for an existing player, their URL will change, and removed cards will be readded to the pool of available card numbers.</p>
+          <p>Likewise, if you remove a player, their assigned cards will be also be readded to the pool to assign to new players.</p>
+          <p>Howevever, if you do not edit the number of cards for a player, their URL will remain unchanged.</p>
+          <p>Are you sure you want to edit?</p>`;
+          let footer = `<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-default" onClick="edit()">Yes</button>`;
+          alert(header, undefined, footer);
+        });
         container.appendChild(editButton);
       }
 
