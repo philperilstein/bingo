@@ -59,8 +59,12 @@
         cursor: pointer;
     }
     td.selected {
-        background-color: #218F02;
-        color: white;
+        /* background-color: #218F02; */
+        background-image: url('../images/snowflake.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        /* color: white; */
+        color: #000000;
         font-size: 20px;
         cursor: pointer;
     }

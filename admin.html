@@ -406,6 +406,13 @@ function checkWinner(bingoCard, cardNumber) {
     if (row5Match && row5Match.length === 5) {
         retVal.push('Horizontal BINGO on Row-5');
     }
+
+    if (row3Match && row3Match.length === 5 && 
+    bMatches && bMatches.length === 5 &&
+    oMatches && oMatches.length === 5) {
+      retVal.push('Letter H BINGO');
+    }
+
     if (fourCorners && fourCorners.length === 4) {
         retVal.push('4 Corners BINGO');
     }
