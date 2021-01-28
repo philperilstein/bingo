@@ -60,12 +60,13 @@
     }
     td.selected {
         /* background-color: #218F02; */
-        background-image: url('../images/snowflake.png');
+        background-image: url('../images/variety.png');
         background-repeat: no-repeat;
         background-size: contain;
         /* color: white; */
         color: #000000;
         font-size: 20px;
+        font-weight: bold;
         cursor: pointer;
     }
     td:after {
