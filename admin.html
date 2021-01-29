@@ -413,6 +413,11 @@ function checkWinner(bingoCard, cardNumber) {
       retVal.push('Letter H BINGO');
     }
 
+    if (diagonal1 && diagonal1.length === 5 &&
+      diagonal2 && diagonal2.length === 5) {
+        retVal.push('Letter X BINGO');
+      }
+
     if (fourCorners && fourCorners.length === 4) {
         retVal.push('4 Corners BINGO');
     }

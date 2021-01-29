@@ -19,7 +19,7 @@
         <loc>https://hostvirtualbingo.com/admin.html</loc>
         <changefreq>daily</changefreq>
         <priority>0.75</priority>
-        <lastmod>2020-12-14</lastmod>
+        <lastmod>2021-01-29</lastmod>
     </url>
     <url>
         <loc>https://hostvirtualbingo.com/faq.html</loc>
@@ -37,7 +37,7 @@
         <loc>https://hostvirtualbingo.com/rules.html</loc>
         <changefreq>daily</changefreq>
         <priority>0.75</priority>
-        <lastmod>2020-12-14</lastmod>
+        <lastmod>2021-01-29</lastmod>
         <image:image>
             <image:loc>https://hostvirtualbingo.com/images/vertical-BINGO.png</image:loc>
             <image:title>Vertical BINGO</image:title>
@@ -61,6 +61,10 @@
         <image:image>
             <image:loc>https://hostvirtualbingo.com/images/letter-h.png</image:loc>
             <image:title>Letter H BINGO</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://hostvirtualbingo.com/images/letter-x.png</image:loc>
+            <image:title>Letter X BINGO</image:title>
         </image:image>
     </url>
 </urlset>
