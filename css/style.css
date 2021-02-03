@@ -59,14 +59,14 @@
         cursor: pointer;
     }
     td.selected {
-        /* background-color: #218F02; */
-        background-image: url('../images/variety.png');
+        background-color: #218F02;
+        /* background-image: url('../images/variety.png'); */
         background-repeat: no-repeat;
         background-size: contain;
-        /* color: white; */
-        color: #000000;
+        color: white;
+        /* color: #000000; */
         font-size: 20px;
-        font-weight: bold;
+        /* font-weight: bold; */
         cursor: pointer;
     }
     td:after {
