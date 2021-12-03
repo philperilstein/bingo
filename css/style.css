@@ -59,14 +59,14 @@
         cursor: pointer;
     }
     td.selected {
-        background-color: #218F02;
-        /* background-image: url('../images/variety.png'); */
+        /* background-color: #218F02; */
+        background-image: url('../images/hanukkah.jpg'); /* Comment this out for default theme */
         background-repeat: no-repeat;
         background-size: contain;
-        color: white;
-        /* color: #000000; */
+        /* color: white; */
+        color: #FFD700; /* Comment this out for default theme */
         font-size: 20px;
-        /* font-weight: bold; */
+        font-weight: bold; /* Comment this out for default theme */
         cursor: pointer;
     }
     td:after {
