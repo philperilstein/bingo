@@ -90,7 +90,7 @@
         </div>
         <div id="form" class="panel-body">
           <div class="form-group">
-          <div id="playerinfo"></div>
+          <div id="playerInfo"></div>
             <div style="padding-top: 4px">
               <button type="button" class="btn btn-primary" onClick="addPlayer()"><span class="glyphicon glyphicon-plus"></span> Add a player</button>
               <button type="button" class="btn btn-success disabled" onClick="submitForm()" id="submitButton">Generate cards</button>
@@ -119,9 +119,9 @@
         editButton.dataset.target = "#myModal";
         editButton.addEventListener("click", function() {
           let header = `<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
-          <p>If you decrease the number of cards for an existing player, their URL will change, and removed cards will be readded to the pool of available card numbers.</p>
-          <p>Likewise, if you remove a player, their assigned cards will be also be readded to the pool to assign to new players.</p>
-          <p>Howevever, if you do not edit the number of cards for a player, their URL will remain unchanged.</p>
+          <p>If you decrease the number of cards for an existing player, their URL will change, and removed cards will be re-added to the pool of available card numbers.</p>
+          <p>Likewise, if you remove a player, their assigned cards will be also be re-added to the pool to assign to new players.</p>
+          <p>However, if you do not edit the number of cards for a player, their URL will remain unchanged.</p>
           <p>Are you sure you want to edit?</p>`;
           let footer = `<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-default" onClick="edit()">Yes</button>`;
@@ -242,7 +242,7 @@
           return;
         }
         submitButton.classList.add("disabled");
-        let playerInfo = document.getElementById("playerinfo");
+        let playerInfo = document.getElementById("playerInfo");
         let allBoards = new Set();
         let saveData = [];
         saveData.push('!');
@@ -324,7 +324,7 @@
 
       function canSubmit() {
         let submitButton = document.getElementById('submitButton');
-        let playerInfo = document.getElementById("playerinfo");
+        let playerInfo = document.getElementById("playerInfo");
         let totalCards = 0;
 
         if (playerInfo.childNodes && playerInfo.childNodes.length === 0) {
@@ -366,7 +366,7 @@
       }
 
       function reNumberRows() {
-        let playerInfo = document.getElementById("playerinfo");
+        let playerInfo = document.getElementById("playerInfo");
         let index = 0;
         for (let row of playerInfo.childNodes) {
           row.id = `row-${index}`;
@@ -380,7 +380,7 @@
 
       function deleteRow(event) {
         let rowNum = event.currentTarget.id;
-        let playerInfo = document.getElementById("playerinfo");
+        let playerInfo = document.getElementById("playerInfo");
         let rowToRemove = document.getElementById(`row-${rowNum}`);
         playerInfo.removeChild(rowToRemove);
         reNumberRows();
@@ -388,7 +388,7 @@
       }
 
       function addPlayer(name, cardNumbers) {
-        let playerInfo = document.getElementById("playerinfo");
+        let playerInfo = document.getElementById("playerInfo");
         let i = parseInt(playerInfo.childNodes.length);
         if (i >= 50) {
           alert(`<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>`, 'Cannot exceed 50 total players');
