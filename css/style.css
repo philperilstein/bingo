@@ -60,11 +60,11 @@
     }
     td.selected {
         /* background-color: #218F02; */
-        background-image: url('../images/hanukkah.jpg'); /* Comment this out for default theme */
+        background-image: url('../images/snowman.png'); /* Comment this out for default theme */
         background-repeat: no-repeat;
         background-size: contain;
         /* color: white; */
-        color: #FFD700; /* Comment this out for default theme */
+        color: #218F02; /* Comment this out for default theme */
         font-size: 20px;
         font-weight: bold; /* Comment this out for default theme */
         cursor: pointer;
