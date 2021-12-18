@@ -74,6 +74,39 @@ function alert(title, content, footerContent) {
 }
 
 /**
+ * Function to overwrite default confirm and create a custom alert modal confirmation dialog
+ * @param {String} [title] the title for the alert, if not truthy, then no header will be displayed
+ * @param {String|Object} [content] the string or HTML DOM content
+ * @returns {Boolean} True if confirmed, false otherwise
+ */
+function confirm(title, content) {
+    return new Promise(function(resolve) {
+
+        const confirmation = 'Yes';
+        const cancel = 'Cancel';
+
+        let confirmCallback = (confirm) => {
+            resolve(confirm.srcElement.textContent === confirmation);
+        }
+
+        let footer = document.createElement("DIV");
+        let cancelButton = document.createElement("BUTTON");
+        cancelButton.className = "btn btn-default";
+        cancelButton.textContent = cancel;
+        cancelButton.dataset.dismiss = "modal";
+        cancelButton.addEventListener("click", confirmCallback);
+        let confirmButton = document.createElement("BUTTON");
+        confirmButton.className = "btn btn-default";
+        confirmButton.textContent = confirmation;
+        confirmButton.addEventListener("click", confirmCallback);
+        footer.appendChild(cancelButton);
+        footer.appendChild(confirmButton);
+
+        alert(title, content, footer);
+    });
+}
+
+/**
  * Helper function to create a unique ID
  * @returns {String} a unique id
  */

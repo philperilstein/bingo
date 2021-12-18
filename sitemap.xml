@@ -3,7 +3,7 @@
         <loc>https://hostvirtualbingo.com</loc>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
-        <lastmod>2021-09-11</lastmod>
+        <lastmod>2021-12-19</lastmod>
         <image:image>
             <image:loc>https://hostvirtualbingo.com/images/logo1.png</image:loc>
             <image:title>Logo</image:title>
@@ -25,7 +25,7 @@
         <loc>https://hostvirtualbingo.com/faq.html</loc>
         <changefreq>monthly</changefreq>
         <priority>0.75</priority>
-        <lastmod>2021-12-04</lastmod>
+        <lastmod>2021-12-18</lastmod>
     </url>
     <url>
         <loc>https://hostvirtualbingo.com/donate.html</loc>

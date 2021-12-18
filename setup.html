@@ -89,6 +89,11 @@
           Generate BINGO Cards
         </div>
         <div id="form" class="panel-body">
+          <div class="form-group" style="padding-bottom: 4px">
+            <label class="btn btn-primary">
+              <span class="glyphicon glyphicon-upload"></span> Upload saved cards<input type="file" id="uploadGame" onChange="uploadGame()" style="display: none;">
+            </label>
+          </div>
           <div class="form-group">
           <div id="playerInfo"></div>
             <div style="padding-top: 4px">
@@ -109,13 +114,59 @@
 
     <script>
       load();
+
+      function downloadGame() {
+        let saveData = getCookie('urls');
+        let element = document.createElement("A");
+        element.setAttribute("href", "data:text/plan;charset=utf-8," + encodeURIComponent(saveData));
+        element.setAttribute("download", "bingo.txt");
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      }
+
+      async function uploadGame() {
+        let fileUploadElement = document.getElementById("uploadGame");
+        let file = fileUploadElement.files[0];
+        if (!file) {
+          return;
+        }
+        else if (file.type !== "text/plain") {
+          alert("Error invalid file type");
+          return;
+        }
+
+        let header = `<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
+          <p>If you upload cards from the saved file: <b>${file.name}</b>, you will overwrite and lose any input player data you have edited so far.</p>
+          <p>Are you sure you want to continue?</p>`;
+
+        let confirmation = await confirm(header);
+        if (!confirmation) {
+          fileUploadElement.value = ""; // Reset the FileList
+          return;
+        }
+
+        if (file) {
+          var reader = new FileReader();
+          reader.readAsText(file, "UTF-8");
+          reader.onload = function (evt) {
+            setCookie('urls', evt.target.result, 30);
+            location.reload();
+          }
+          reader.onerror = function (evt) {
+            alert("error reading file");
+          }
+        }
+      }
+
       function createEditButton() {
         let container = document.getElementById("container");
         let editButton = document.createElement("BUTTON");
         editButton.type = "button";
         editButton.className = "btn btn-default";
         editButton.textContent = "Edit";
-        editButton.dataset.toggle = "modal";;
+        editButton.dataset.toggle = "modal";
         editButton.dataset.target = "#myModal";
         editButton.addEventListener("click", function() {
           let header = `<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>
@@ -128,6 +179,16 @@
           alert(header, undefined, footer);
         });
         container.appendChild(editButton);
+      }
+
+      function createDownloadButton() {
+        let container = document.getElementById("container");
+        let downloadButton = document.createElement("BUTTON");
+        downloadButton.type = "button";
+        downloadButton.className = "btn btn-default";
+        downloadButton.innerHTML = "<span class=\"glyphicon glyphicon-download\"></span> Save";
+        downloadButton.addEventListener("click", downloadGame);
+        container.appendChild(downloadButton);
       }
 
       function buildURLTable(urlData) {
@@ -212,27 +273,35 @@
       }
 
       function load() {
-        let urlData = getCookie('urls').split('|');
-        if (urlData[0] === '!') {
-          // Form has already been submitted so just load up the URLs
-          let container = document.getElementById("container");
-          (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
-          createEditButton();
-          let table = buildURLTable(urlData);
-          container.appendChild(table);
-          let form = document.getElementById("form");
-          container.removeChild(form);
-        }
-        else if (urlData[0] !== '') {
-          // Form hasn't been submitted yet or clicked edit so load up saved progress
-          let cookieData = getCookie('urls').split('|');
-          for (let player of cookieData) {
-            let playerData = player.split(':');
-            if (playerData[0] !== '!') {
-              addPlayer(playerData[0], playerData[1].split(','));
-            }
+        try {
+          let urlData = getCookie('urls').split('|');
+          if (urlData[0] === '!') {
+            // Form has already been submitted so just load up the URLs
+            let container = document.getElementById("container");
+            (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
+            createEditButton();
+            createDownloadButton();
+            let table = buildURLTable(urlData);
+            container.appendChild(table);
+            let form = document.getElementById("form");
+            container.removeChild(form);
           }
-          canSubmit();
+          else if (urlData[0] !== '') {
+            // Form hasn't been submitted yet or clicked edit so load up saved progress
+            let cookieData = getCookie('urls').split('|');
+            for (let player of cookieData) {
+              let playerData = player.split(':');
+              if (playerData[0] !== '!') {
+                addPlayer(playerData[0], playerData[1].split(','));
+              }
+            }
+            canSubmit();
+          }
+        }
+        catch(err) {
+          // If there is an error loading the data, clear the cookie
+          alert('Error malformed data');
+          deleteCookie('urls');
         }
       }
 
@@ -276,6 +345,7 @@
         }
         let container = document.getElementById("container");
         createEditButton();
+        createDownloadButton();
         (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
         let table = buildURLTable(saveData);
         container.appendChild(table);
