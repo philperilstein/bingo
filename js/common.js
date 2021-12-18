@@ -89,7 +89,7 @@ function uuid(){
 
 /**
  * Helper function to not return the promise for specified milliseconds
- * @param {Number} ms number of miliseconds to wait before resolving the promise
+ * @param {Number} ms number of milliseconds to wait before resolving the promise
  */
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -135,3 +135,13 @@ function getCookie(cname) {
 function deleteCookie(cname) {
     document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
+
+/**
+ * Common function to strip HTML from a string
+ * @param {String} str
+ * @returns String stripped of HTML
+ */
+function stripHTML(str) {
+    let doc = new DOMParser().parseFromString(str, 'text/html');
+    return doc.body.textContent || "";
+  }

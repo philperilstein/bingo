@@ -263,6 +263,11 @@
 
         for (let player of playerInfo.childNodes) {
           let playerName = player.childNodes[1].childNodes[0].value;
+          //Remove special chars, HTML and whitespace
+          playerName = playerName.replace(/[^\x20-\x7E]/g, '');
+          playerName = stripHTML(playerName);
+          playerName = playerName.trim();
+
           let numCards = parseInt((player.childNodes[2].childNodes[0]).value);
           let assignedCards = (player.childNodes[3].childNodes[0].value).split(',');
           assignedCards = assignedCards.length === 1 && assignedCards[0] === '' ? [] : assignedCards;
@@ -296,6 +301,8 @@
       function typeNumCards(event) {
         let row = event.path[2];
         let numCards = row.childNodes[2].childNodes[0].value;
+        numCards = numCards.replace(/[^\x20-\x7E]/g, ''); // Remove non-printable chars
+        row.childNodes[2].childNodes[0].value = numCards;
 
         if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1 || parseInt(numCards) > 10 || !Number.isInteger(parseFloat(numCards))) {
           
@@ -344,7 +351,7 @@
             return false;
           }
           else if (totalCards > 500) {
-            alert(`<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>`, 'Cannot exceed 250 total cards');
+            alert(`<h2 class="text-warning">Warning <span class="glyphicon glyphicon-warning-sign"></span></h2>`, 'Cannot exceed 500 total cards');
             if (!submitButton.classList.contains("disabled")) {
               submitButton.classList.add("disabled");
             }
