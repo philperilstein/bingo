@@ -10,12 +10,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.4.0/dist/pdf-lib.min.js"></script>
   <script src="js/common.js"></script>
+  <script src="js/pdf.js"></script>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-
 <style>
   body {
     background-color: #9d9d9d;
@@ -191,6 +192,29 @@
         container.appendChild(downloadButton);
       }
 
+      function createPDFButton() {
+        let container = document.getElementById("container");
+        let downloadButton = document.createElement("BUTTON");
+        downloadButton.type = "button";
+        downloadButton.className = "btn btn-default";
+        downloadButton.innerHTML = "<span class=\"glyphicon glyphicon-print\"></span> Print all cards";
+        downloadButton.addEventListener("click", () => {
+          let cookieData = getCookie('urls').split('|');
+          let cards = [];
+          let players = [];
+          for (let datum of cookieData) {
+            if (datum !== '!') {
+              let playerName = datum.split(':')[0];
+              let cardData = datum.split(':')[1].split(',');
+              cards.push(...cardData);
+              players.push(...cardData.map(card => playerName));
+            }
+          }
+          generatePDF(cards, players);
+        });
+        container.appendChild(downloadButton);
+      }
+
       function buildURLTable(urlData) {
           let tableDiv = document.createElement("DIV");
           tableDiv.className = "table-responsive";
@@ -235,6 +259,15 @@
               copyButton.innerHTML = `<span class="glyphicon glyphicon-copy"></span>`;
               copyButton.addEventListener('click', copyURL);
               cell3.appendChild(copyButton);
+              let printButton = document.createElement("BUTTON");
+              printButton.type = "button";
+              printButton.title = "Print cards";
+              printButton.rel="tooltip";
+              printButton.dataset.toggle = "tooltip";
+              printButton.className = "btn btn-default";
+              printButton.innerHTML = `<span class="glyphicon glyphicon-print"></span>`;
+              printButton.addEventListener('click', printCards);
+              cell3.appendChild(printButton);
               let cell4 = document.createElement("TD");
               cell4.innerHTML = `<a href="${domain}/bingo.html?card=${dataArray[1]}" target="_blank">${domain}/bingo.html?card=${dataArray[1]}</a>`;
               row.appendChild(cell1);
@@ -247,6 +280,17 @@
           }
           table.appendChild(tableBody);
           return tableDiv;
+      }
+
+      /**
+       * Event callback for the printButton event
+       */
+      function printCards(event) {
+        let tableRow = event.currentTarget.parentNode.parentNode;
+        let url = tableRow.childNodes[tableRow.childNodes.length-1].innerText;
+        let cards = url.split('=')[1].split(',');
+        let playerName = tableRow.childNodes[1].innerText;
+        generatePDF(cards, cards.map(card => playerName), playerName);
       }
       
       /**
@@ -281,6 +325,7 @@
             (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
             createEditButton();
             createDownloadButton();
+            createPDFButton();
             let table = buildURLTable(urlData);
             container.appendChild(table);
             let form = document.getElementById("form");
@@ -346,6 +391,7 @@
         let container = document.getElementById("container");
         createEditButton();
         createDownloadButton();
+        createPDFButton();
         (container.getElementsByClassName('panel-heading'))[0].textContent = "Generated Bingo Cards";
         let table = buildURLTable(saveData);
         container.appendChild(table);
