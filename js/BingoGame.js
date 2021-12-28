@@ -1,5 +1,6 @@
 
 import BingoCard from './BingoCard.js';
+import { generatePDF } from './PDFModule.js';
 
 export default class BingoGame {
 
@@ -73,7 +74,7 @@ export default class BingoGame {
         printBoardButton.className = "btn btn-default";
         printBoardButton.style="border-radius: 4px; color: #000000; background-color: #FFFFFF !important;";
         printBoardButton.addEventListener("click", function () {
-            window.open(`card_pdf/${cardNumber}.pdf`, '_blank');
+            generatePDF([cardNumber], ['']);
         });
         printBoardButton.innerHTML = `<span class="glyphicon glyphicon-print"></span> Print Board`;
         buttonGroup.appendChild(printBoardButton);
