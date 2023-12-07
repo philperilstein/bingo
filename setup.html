@@ -415,10 +415,11 @@
       }
 
       function typeNumCards(event) {
-        let row = event.path[2];
-        let numCards = row.childNodes[2].childNodes[0].value;
+        let inputElement = event.srcElement;
+        let row = inputElement.parentNode;
+        let numCards = inputElement.value;
         numCards = numCards.replace(/[^\x20-\x7E]/g, ''); // Remove non-printable chars
-        row.childNodes[2].childNodes[0].value = numCards;
+        inputElement.value = numCards;
 
         if (numCards === "" || isNaN(numCards) || parseInt(numCards) < 1 || parseInt(numCards) > 10 || !Number.isInteger(parseFloat(numCards))) {
           
@@ -427,19 +428,19 @@
             submitButton.classList.add("disabled");
           }
 
-          if (row.childNodes[2].className != "col-xs has-error has-feedback") {
-            row.childNodes[2].className = "col-xs has-error has-feedback";
-            if (row.childNodes[2].childNodes.length === 1) {
+          if (row.className != "col-xs has-error has-feedback") {
+            row.className = "col-xs has-error has-feedback";
+            if (row.childNodes.length === 1) {
               let errorThing = document.createElement("span");
               errorThing.className = "glyphicon glyphicon-remove form-control-feedback";
-              row.childNodes[2].appendChild(errorThing);
+              row.appendChild(errorThing);
             }
           }
         }
         else {
-          row.childNodes[2].className = "col-xs";
-          if (row.childNodes[2].childNodes.length === 2) {
-              row.childNodes[2].removeChild((row.childNodes[2]).childNodes[1]);
+          row.className = "col-xs";
+          if (row.childNodes.length === 2) {
+              row.removeChild(row.childNodes[1]);
           }
         }
         canSubmit();

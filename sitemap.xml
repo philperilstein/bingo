@@ -3,7 +3,7 @@
         <loc>https://hostvirtualbingo.com</loc>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
-        <lastmod>2022-1-26</lastmod>
+        <lastmod>2023-12-07</lastmod>
         <image:image>
             <image:loc>https://hostvirtualbingo.com/images/logo1.png</image:loc>
             <image:title>Logo</image:title>
@@ -13,7 +13,7 @@
         <loc>https://hostvirtualbingo.com/setup.html</loc>
         <changefreq>monthly</changefreq>
         <priority>0.75</priority>
-        <lastmod>2021-12-21</lastmod>
+        <lastmod>2023-12-07</lastmod>
     </url>
     <url>
         <loc>https://hostvirtualbingo.com/admin.html</loc>
